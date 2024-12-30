@@ -32,18 +32,9 @@ export class Model {
    * @returns {Promise<object>}
    */
   async create(objData) {
-    try {
-      if (!objData || objData.constructor.name !== 'Object') {
-        throw new Error('Invalid data provided for creation.');
-      }
       const collection = this.Collection;
-      objData.id =
-        collection.length > 0 ? collection[collection.length - 1].id + 1 : 1;
       collection.push(objData);
       this.Collection = collection;
-    } catch (error) {
-      throw new Error(`Failed to create record: ${error.message}`);
-    }
   }
 
   /**
