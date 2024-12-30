@@ -43,8 +43,59 @@ export class Model {
    * @returns {Promise<object|undefined>}
    */
   async update(objId, data2Update) {
-    // TODO: @MohamedBreya
-    throw new Error('Method not implemented yet!');
+        // TODO: @MohamedBreya
+    const collection = this.Collection;
+
+
+    const index = collection.findIndex(item => item.id === objId);
+
+    if (index === -1) {
+      return Promise.reject(`Object with ID ${objId} not found`);
+    }
+
+
+    const { id, ...safeDataToUpdate } = data2Update;
+
+    const deepMerge = (target, source) => {
+      for (const key in source) {
+
+        if (!target.hasOwnProperty(key)) {
+    
+          return Promise.reject(`Key "${key}" does not exist in the target object`);
+        }
+
+
+        if (source[key] instanceof Object && !(source[key] instanceof Array)) {
+          target[key] = deepMerge(target[key] || {}, source[key]);
+        }
+
+        else if (Array.isArray(source[key])) {
+          target[key] = [...(target[key] || []), ...source[key]];
+        }
+
+        else {
+          target[key] = source[key];
+        }
+      }
+      return target;
+    };
+
+
+    try {
+      const updatedObject = await deepMerge(collection[index], safeDataToUpdate);
+      collection[index] = updatedObject;
+
+
+      this.Collection = collection;
+
+
+      return Promise.resolve(updatedObject);
+    } catch (error) {
+
+      return Promise.reject(error);
+    }
+    
+    // throw new Error('Method not implemented yet!');
   }
 
   /**
@@ -53,7 +104,19 @@ export class Model {
    */
   async delete(objId) {
     // TODO: @MohamedBreya
-    throw new Error('Method not implemented yet!');
+    const collection = this.Collection;
+    const index = collection.findIndex(item => item.id === objId);
+
+    if (index === -1) {
+      return Promise.reject(`Object with ID ${objId} not found`);
+    }
+
+    const [deletedObject] = collection.splice(index, 1);
+    this.Collection = collection;
+
+    return Promise.resolve(deletedObject);
+ 
+    // throw new Error('Method not implemented yet!');
   }
 
   /**
