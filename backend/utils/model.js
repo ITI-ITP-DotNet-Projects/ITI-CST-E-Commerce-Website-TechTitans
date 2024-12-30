@@ -17,8 +17,14 @@ export class Model {
    * @returns {Promise<any[]>}
    */
   async find(filterOptions) {
-    // TODO: @Alaa20khedr
-    throw new Error('Method not implemented yet!');
+    const collection = this.Collection;
+    const results = collection.filter((item) => {
+      return Object.entries(filterOptions).every(
+        ([key, value]) => item[key] === value
+      );
+    });
+
+    return results;
   }
 
   /**
@@ -26,8 +32,18 @@ export class Model {
    * @returns {Promise<object>}
    */
   async create(objData) {
-    // TODO: @Alaa20khedr
-    throw new Error('Method not implemented yet!');
+    try {
+      if (!objData || objData.constructor.name !== 'Object') {
+        throw new Error('Invalid data provided for creation.');
+      }
+      const collection = this.Collection;
+      objData.id =
+        collection.length > 0 ? collection[collection.length - 1].id + 1 : 1;
+      collection.push(objData);
+      this.Collection = collection;
+    } catch (error) {
+      throw new Error(`Failed to create record: ${error.message}`);
+    }
   }
 
   /**
