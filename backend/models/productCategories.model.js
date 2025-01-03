@@ -1,3 +1,5 @@
+import { Model } from '../utils/model.js';
+
 export class ProductCategory {
   /**
    * @param {number} id
