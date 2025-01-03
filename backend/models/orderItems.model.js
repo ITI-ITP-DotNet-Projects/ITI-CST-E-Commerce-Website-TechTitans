@@ -1,3 +1,5 @@
+import { Model } from '../utils/model.js';
+
 export class OrderItem {
   /**
    * @param {number} orderId
@@ -12,3 +14,5 @@ export class OrderItem {
     this.totalPrice = totalPrice;
   }
 }
+
+export const orderItemsModel = new Model('orderItems');
