@@ -1,3 +1,5 @@
+import { Model } from '../utils/model.js';
+
 export class PaymentMethod {
   /**
    * @param {number} id
@@ -8,3 +10,5 @@ export class PaymentMethod {
     this.type = type;
   }
 }
+
+export const paymentMethodsModel = new Model('paymentMethods');
