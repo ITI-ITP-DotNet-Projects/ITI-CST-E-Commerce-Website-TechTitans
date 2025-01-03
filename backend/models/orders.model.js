@@ -1,4 +1,5 @@
 import { Model } from '../utils/model.js';
+
 export class shippingDetailsOrder {
   /**
    * @param {string} firstName
@@ -6,7 +7,6 @@ export class shippingDetailsOrder {
    * @param {string} phoneNumber
    * @param {string} address
    * @param {string} email
-   *
    */
   constructor(firstName, lastName, phoneNumber, address, email) {
     this.firstName = firstName;
@@ -16,9 +16,10 @@ export class shippingDetailsOrder {
     this.email = email;
   }
 }
-export class Orders {
+
+export class Order {
   /**
-   * @param {number} Id
+   * @param {number} id
    * @param {number} customerId
    * @param {number} totalPrice
    * @param {number} deliveryFee
@@ -27,9 +28,8 @@ export class Orders {
    * @param {'pending'|'confirmed'|'shipped'|'delivered'|'canceled'} status
    * @param {Date} createdAt
    */
-
   constructor(
-    Id,
+    id,
     customerId,
     totalPrice,
     deliveryFee,
@@ -38,14 +38,15 @@ export class Orders {
     status,
     createdAt
   ) {
-    this.Id = Id;
+    this.id = id;
     this.customerId = customerId;
     this.totalPrice = totalPrice;
     this.deliveryFee = deliveryFee;
     this.paymentMethodId = paymentMethodId;
     this.shippingDetails = shippingDetails;
     this.status = status; //('pending', 'confirmed', 'shipped', 'delivered', 'canceled')
-    this.createdAt = new Date(createdAt);
+    this.createdAt = createdAt;
   }
 }
-export const ordersModel = new Model('Orders');
+
+export const ordersModel = new Model('orders');
