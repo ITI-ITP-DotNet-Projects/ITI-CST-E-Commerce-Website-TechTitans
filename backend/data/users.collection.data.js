@@ -8,7 +8,7 @@ export const usersCollectionData = [
     avatar: 'avatar.jpg',
   },
   {
-    id: 20910,
+    id: 20904,
     name: 'Taylor Doe',
     email: 'taylor@example.com',
     role: 'seller',
