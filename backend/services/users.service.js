@@ -3,7 +3,7 @@ import { IdGenerator, idGenerator } from '../utils/idGenerator.js';
 import { Model } from '../utils/model.js';
 
 export class UsersService {
-  #userModel;
+  #usersModel;
   #idGenerator;
   #currentLoggedInUser;
 
@@ -12,8 +12,8 @@ export class UsersService {
    * @param {IdGenerator} idGenerator
    */
   constructor(usersModel, idGenerator) {
-    this.usersModel = usersModel;
-    this.idGenerator = idGenerator;
+    this.#usersModel = usersModel;
+    this.#idGenerator = idGenerator;
   }
 
   /**
@@ -54,7 +54,7 @@ export class UsersService {
 
   /**
    * @param {Partial < Omit < User, 'password' >>} filterOptions
-   * @returns {User[]}
+   * @returns {Promise<User[]>}
    */
   async getUsers(filterOptions) {
     throw new Error('Method not implemented yet!');
