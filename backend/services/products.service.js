@@ -31,7 +31,24 @@ export class ProductsService {
    * @returns {Promise<Product[]>} A promise that resolves to an array of products.
    */
   async getProducts({ filterOptions, paginationOptions, sortingOptions }) {
-    throw new Error('Method not implemented yet!');
+    const allProducts = await this.#productsModel.find(filterOptions);
+
+    const sortedProducts = allProducts.sort((a, b) => {
+      for (const [key, order] of Object.entries(sortingOptions)) {
+        if (a[key] < b[key]) return order === 1 ? -1 : 1;
+        if (a[key] > b[key]) return order === 1 ? 1 : -1;
+      }
+      return 0;
+    });
+
+    const { pageNum = 1, limit = 10 } = paginationOptions;
+    const startIndex = (pageNum - 1) * limit;
+    const paginatedProducts = sortedProducts.slice(
+      startIndex,
+      startIndex + limit
+    );
+
+    return paginatedProducts;
   }
 
   /**
@@ -42,7 +59,20 @@ export class ProductsService {
    * @returns {Promise<Product>} A promise that resolves to the newly created product.
    */
   async createProduct(productData) {
-    throw new Error('Method not implemented yet!');
+    const currentUser = await this.#usersService.getCurrentLoggedInUser();
+    if (!currentUser || currentUser.role !== 'seller') {
+      throw new Error('Only sellers are authorized to create products.');
+    }
+
+    const productId = await this.#idGenerator.ID;
+    const newProduct = {
+      id: productId,
+      ...productData,
+      sellerId: currentUser.id,
+    };
+
+    await this.#productsModel.create(newProduct);
+    return newProduct;
   }
 
   /**
@@ -54,7 +84,18 @@ export class ProductsService {
    * @returns {Promise<Product>} A promise that resolves to the updated product
    */
   async updateProduct(id, data2Update) {
-    throw new Error('Method not implemented yet!');
+    const currentUser = await this.#usersService.getCurrentLoggedInUser();
+    if (!currentUser || currentUser.role !== 'seller') {
+      throw new Error('Only sellers are authorized to update products.');
+    }
+
+    const product = await this.#productsModel.find({ id });
+    if (!product || product.sellerId !== currentUser.id) {
+      throw new Error('Product not found or unauthorized access.');
+    }
+
+    const updatedProduct = await this.#productsModel.update(id, data2Update);
+    return updatedProduct;
   }
 
   /**
@@ -65,7 +106,25 @@ export class ProductsService {
    * @returns {Promise<Product>}
    */
   async deleteProduct(id) {
-    throw new Error('Method not implemented yet!');
+    const currentUser = await this.#usersService.getCurrentLoggedInUser();
+    if (
+      !currentUser ||
+      (currentUser.role !== 'admin' && currentUser.role !== 'seller')
+    ) {
+      throw new Error('Unauthorized access.');
+    }
+
+    const product = await this.#productsModel.find({ id });
+    if (!product) {
+      throw new Error('Product not found.');
+    }
+
+    if (currentUser.role === 'seller' && product.sellerId !== currentUser.id) {
+      throw new Error('Unauthorized access to delete this product.');
+    }
+
+    const deletedProduct = await this.#productsModel.delete(id);
+    return deletedProduct;
   }
 }
 
