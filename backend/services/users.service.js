@@ -18,9 +18,13 @@ export class UsersService {
 
   /**
    * @returns {User|null}
+   *+
    */
   async getCurrentLoggedInUser() {
-    throw new Error('Method not implemented yet!');
+    if (this.#currentLoggedInUser) {
+      return this.#currentLoggedInUser;
+    }
+    return null;
   }
 
   /**
@@ -32,7 +36,31 @@ export class UsersService {
    * @returns {Promise<User>}
    */
   async register({ name, email, password, role }) {
-    throw new Error('Method not implemented yet!');
+    if (!name || !email || !password || !role) {
+      throw new ValidationError(
+        'All fields (name, email, password, role) are required.'
+      );
+    }
+    const validRoles = ['customer', 'seller', 'admin'];
+    if (!validRoles.includes(role.toLowerCase())) {
+      throw new ValidationError(
+        `Invalid role: ${role}. Allowed roles are: ${validRoles.join(', ')}.`
+      );
+    }
+
+    const existingUsers = await this.#usersModel.find({ email });
+    if (existingUsers.length > 0) {
+      throw new ValidationError(`A user with email ${email} already exists.`);
+    }
+
+    const newUser = {
+      name,
+      email,
+      password,
+      role,
+    };
+    await this.#usersModel.create(newUser);
+    return newUser;
   }
 
   /**
@@ -41,15 +69,37 @@ export class UsersService {
    * @param {string} options.password
    * @returns {Promise<void>}
    */
-  async login({ email: string, password: string }) {
-    throw new Error('Method not implemented yet!');
+  async login({ email, password }) {
+    if (!email || !password) {
+      throw new ValidationError('Email and password are required.');
+    }
+    const users = await this.#usersModel.find({ email });
+    if (users.length === 0) {
+      throw new AuthenticationError('Invalid email or password.');
+    }
+    const user = users[0];
+    if (user.password !== password) {
+      throw new AuthenticationError('Invalid email or password.');
+    }
+    this.#currentLoggedInUser = user;
   }
 
   /**
    * @returns {Promise<void>}
    */
   async logout() {
-    throw new Error('Method not implemented yet!');
+    if (this.#currentLoggedInUser) {
+      const deletedUser = await this.#usersModel.delete(
+        this.#currentLoggedInUser.id
+      );
+      if (deletedUser) {
+        console.log(`User logged out successfully`);
+      } else {
+        console.error('User could not be deleted');
+      }
+
+      this.#currentLoggedInUser = null;
+    }
   }
 
   /**
@@ -79,10 +129,15 @@ export class UsersService {
   }
 
   /**
-   * @returns {Promise<boo>}
+   * @returns {Promise<boolean>}
    */
   async isAuthenticated() {
-    throw new Error('Method not implemented yet!');
+    if (this.#currentLoggedInUser) {
+      console.log("true")
+      return true;
+      
+    }
+    return false;
   }
 
   /**
@@ -90,14 +145,43 @@ export class UsersService {
    * @param  {('customer'|'seller'|'admin')[]} roles
    */
   async isAuthorized(...roles) {
-    throw new Error('Method not implemented yet!');
+    if (!this.#currentLoggedInUser) {
+      throw new Error('No user is currently logged in.');
+    }
+
+    const user = this.#currentLoggedInUser;
+
+    if (!roles.includes(user.role.toLowerCase())) {
+      throw new Error(
+        `User does not have the required role. Required roles: ${roles.join(
+          ', '
+        )}`
+      );
+    }
+
+    console.log('User is authorized:', user);
   }
 
   /**
    * @returns {Promise<void>}
    */
-  async #authenticate() {
-    throw new Error('Method not implemented yet!');
+  async authenticate() {
+    try {
+      if (!this.#currentLoggedInUser) {
+        throw new AuthenticationError('No user is currently logged in.');
+      }
+
+      const user = this.#currentLoggedInUser;
+
+      if (!user.email || !user.password) {
+        throw new AuthenticationError('User does not have valid credentials.');
+      }
+
+      console.log('User authenticated:', user);
+    } catch (error) {
+      console.error('Authentication failed:', error.message);
+      throw error;
+    }
   }
 }
 
