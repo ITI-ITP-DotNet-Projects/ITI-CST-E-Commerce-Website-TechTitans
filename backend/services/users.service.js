@@ -6,6 +6,7 @@ export class UsersService {
   #usersModel;
   #idGenerator;
   #currentLoggedInUser;
+  static #loggedInUserIdKey = 'loggedInUserId';
 
   /**
    * @param {Model} usersModel
@@ -74,6 +75,7 @@ export class UsersService {
     if (user.password !== password) {
       throw new Error('Invalid email or password.');
     }
+    localStorage.setItem(UsersService.#loggedInUserIdKey, user.id);
     this.#currentLoggedInUser = user;
   }
 
