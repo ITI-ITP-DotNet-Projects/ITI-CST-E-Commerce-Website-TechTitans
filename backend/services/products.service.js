@@ -76,7 +76,7 @@ export class ProductsService {
       !(await this.#usersService.isAuthorized('seller')) ||
       sellerId != currentLoggedInUser.id
     ) {
-      throw new Error('Unauthorized access');
+      throw new Error('Unauthorized access!');
     }
 
     const newProduct = new Product(
@@ -107,7 +107,7 @@ export class ProductsService {
   async updateProduct(id, data2Update) {
     const currentUser = await this.#usersService.getCurrentLoggedInUser();
     if (!(await this.#usersService.isAuthorized('seller'))) {
-      throw new Error('Unauthorized access');
+      throw new Error('Unauthorized access!');
     }
 
     const [product] = await this.#productsModel.find({ id });
@@ -128,20 +128,17 @@ export class ProductsService {
    */
   async deleteProduct(id) {
     const currentUser = await this.#usersService.getCurrentLoggedInUser();
-    if (
-      !currentUser ||
-      (currentUser.role !== 'admin' && currentUser.role !== 'seller')
-    ) {
-      throw new Error('Unauthorized access.');
+    if (!(await this.#usersService.isAuthorized('seller', 'admin'))) {
+      throw new Error('Unauthorized access!');
     }
 
-    const product = await this.#productsModel.find({ id });
+    const [product] = await this.#productsModel.find({ id });
     if (!product) {
       throw new Error('Product not found.');
     }
 
     if (currentUser.role === 'seller' && product.sellerId !== currentUser.id) {
-      throw new Error('Unauthorized access to delete this product.');
+      throw new Error('Unauthorized access!');
     }
 
     const deletedProduct = await this.#productsModel.delete(id);
