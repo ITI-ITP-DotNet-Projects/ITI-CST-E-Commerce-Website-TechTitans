@@ -117,11 +117,12 @@ export class UsersService {
    * @returns {Promise<boolean>}
    */
   async isAuthenticated() {
-    if (this.#currentLoggedInUser) {
-      console.log('true');
+    try {
+      await this.authenticate();
       return true;
+    } catch (error) {
+      return false;
     }
-    return false;
   }
 
   /**
