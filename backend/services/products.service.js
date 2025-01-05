@@ -59,17 +59,38 @@ export class ProductsService {
    * @returns {Promise<Product>} A promise that resolves to the newly created product.
    */
   async createProduct(productData) {
-    const currentUser = await this.#usersService.getCurrentLoggedInUser();
-    if (!currentUser || currentUser.role !== 'seller') {
-      throw new Error('Only sellers are authorized to create products.');
+    const {
+      name,
+      price,
+      rating,
+      categoryId,
+      description,
+      stock,
+      sellerId,
+      images,
+      specification,
+    } = productData;
+    const currentLoggedInUser =
+      await this.#usersService.getCurrentLoggedInUser();
+    if (
+      !(await this.#usersService.isAuthorized('seller')) ||
+      sellerId != currentLoggedInUser.id
+    ) {
+      throw new Error('Unauthorized access');
     }
 
-    const productId = await this.#idGenerator.ID;
-    const newProduct = {
-      id: productId,
-      ...productData,
-      sellerId: currentUser.id,
-    };
+    const newProduct = new Product(
+      this.#idGenerator.ID,
+      name,
+      price,
+      rating,
+      categoryId,
+      description,
+      stock,
+      sellerId,
+      images,
+      specification
+    );
 
     await this.#productsModel.create(newProduct);
     return newProduct;
