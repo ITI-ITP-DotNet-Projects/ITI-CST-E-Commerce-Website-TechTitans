@@ -460,4 +460,71 @@ class ShoppingCartItemsService {
 
 ### OrdersService
 
+This service handles all operations related to orders, including fetching, creating, updating orders, etc...
+
+#### OrdersService Class Design
+
+```js
+class OrdersService {
+    #ordersModel;
+    #idGenerator;
+    #usersService
+
+    + Constructor(ordersModel : Model, idGenerator : IdGenerator)
+    + getOrders(filterOptions : object, sortingOptions : Object<string, -1|1>?, paginationOptions : { pageNum: number, limit: number }?) : Promise<Order[]>
+    + createOrder(orderData : Order) : Promise<Order>
+    + updateOrder(orderId : number, data2Update : Order) : Promise<Order>
+}
+```
+
+**Methods**:
+
+- **getOrders()**:
+
+  - Retrieves orders matching the specified filter criteria.
+  - Handles filtering, sorting, and pagination.
+
+- **createOrder()**:
+
+  - Creates a new order.
+  - Should validate the order data before creating the order.
+  - Should return the newly created order.
+  - Only customers can create orders.
+
+- **updateOrder()**:
+
+- Updates an existing order.
+- Should validate the order data before updating the order.
+- if order canceled, should return the canceled order items, to the product stock (i.e. increase product stock)
+
+### OrdersItemsService
+
+This service handles all operations related to orders, including fetching, creating, updating orders, etc...
+
+#### OrdersItemsService Class Design
+
+```js
+class OrdersItemsService {
+    #ordersItemsModel;
+    #idGenerator;
+
+    + Constructor(ordersItemsModel : Model, idGenerator : IdGenerator)
+    + getOrderItems(filterOptions : object, sortingOptions : Object<string, -1|1>?, paginationOptions : { pageNum: number, limit: number }?) : Promise<OrderItem[]>
+    + createOrderItem(itemData : OrderItem) : Promise<OrderItem>
+    + updateOrderItem(itemId : number, data2Update : OrderItem) : Promise<OrderItem>
+    + deleteOrderItem(itemId : number) : Promise<OrderItem>
+}
+```
+
+**Methods**:
+
+- **getOrderItems()**
+  - Retrieves order items matching the specified filter criteria.
+  - Supports filtering with single predicates and normal filtration.
+  - Supports sorting based on specified fields and order (`-1` for descending, `1` for ascending).
+  - Supports pagination with page number and limit.
+- **createOrderItem()**: creates new order item
+- **updateOrderItem()**: updates an existing order item, by using `itemId`, when update product quantity in order item, should reflect to the product stock.
+- **deleteOrderItem()**: delete an existing order item, by using `itemId`, when deleting an order item, should return the item to the product stock (i.e. increase product stock)
+
 ## Conclusion
