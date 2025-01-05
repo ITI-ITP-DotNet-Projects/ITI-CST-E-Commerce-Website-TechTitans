@@ -68,11 +68,11 @@ export class UsersService {
     }
     const users = await this.#usersModel.find({ email });
     if (users.length === 0) {
-      throw new AuthenticationError('Invalid email or password.');
+      throw new Error('Invalid email or password.');
     }
     const user = users[0];
     if (user.password !== password) {
-      throw new AuthenticationError('Invalid email or password.');
+      throw new Error('Invalid email or password.');
     }
     this.#currentLoggedInUser = user;
   }
@@ -160,13 +160,13 @@ export class UsersService {
   async authenticate() {
     try {
       if (!this.#currentLoggedInUser) {
-        throw new AuthenticationError('No user is currently logged in.');
+        throw new Error('No user is currently logged in.');
       }
 
       const user = this.#currentLoggedInUser;
 
       if (!user.email || !user.password) {
-        throw new AuthenticationError('User does not have valid credentials.');
+        throw new Error('User does not have valid credentials.');
       }
 
       console.log('User authenticated:', user);
