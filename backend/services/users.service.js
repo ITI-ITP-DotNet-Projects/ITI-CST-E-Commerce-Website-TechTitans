@@ -83,18 +83,8 @@ export class UsersService {
    * @returns {Promise<void>}
    */
   async logout() {
-    if (this.#currentLoggedInUser) {
-      const deletedUser = await this.#usersModel.delete(
-        this.#currentLoggedInUser.id
-      );
-      if (deletedUser) {
-        console.log(`User logged out successfully`);
-      } else {
-        console.error('User could not be deleted');
-      }
-
-      this.#currentLoggedInUser = null;
-    }
+    this.#currentLoggedInUser = null;
+    localStorage.removeItem(UsersService.#loggedInUserIdKey);
   }
 
   /**
