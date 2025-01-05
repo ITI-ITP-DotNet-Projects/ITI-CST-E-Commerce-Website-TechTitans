@@ -31,24 +31,21 @@ export class ProductsService {
    * @returns {Promise<Product[]>} A promise that resolves to an array of products.
    */
   async getProducts({ filterOptions, paginationOptions, sortingOptions }) {
-    const allProducts = await this.#productsModel.find(filterOptions);
-
-    const sortedProducts = allProducts.sort((a, b) => {
-      for (const [key, order] of Object.entries(sortingOptions)) {
-        if (a[key] < b[key]) return order === 1 ? -1 : 1;
-        if (a[key] > b[key]) return order === 1 ? 1 : -1;
-      }
-      return 0;
-    });
-
-    const { pageNum = 1, limit = 10 } = paginationOptions;
-    const startIndex = (pageNum - 1) * limit;
-    const paginatedProducts = sortedProducts.slice(
-      startIndex,
-      startIndex + limit
+    return this.#productsModel.find(
+      filterOptions,
+      sortingOptions,
+      paginationOptions
     );
-
-    return paginatedProducts;
+  }
+  /**
+   * Fetches products count based on the provided filter.
+   *
+   * @param {Object} options - The options for fetching products.
+   * @param {Product} options.filterOptions - The filter criteria for products.
+   * @returns {Promise<number>} A promise that resolves to the products number
+   */
+  async countProducts({ filterOptions }) {
+    return (await this.#productsModel.find(filterOptions)).length;
   }
 
   /**

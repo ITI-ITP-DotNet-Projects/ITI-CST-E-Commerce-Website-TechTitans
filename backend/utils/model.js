@@ -14,16 +14,48 @@ export class Model {
 
   /**
    * @param {object} filterOptions
+   * @param {Object<string, -1|1>?} sortingOptions - The sorting options, where keys are fields and values are -1 (descending) or 1 (ascending).
+   * @param {Object?} paginationOptions - The pagination options.
+   * @param {number} paginationOptions.pageNum - The page number to fetch.
+   * @param {number} paginationOptions.limit - The number of items per page.
    * @returns {Promise<any[]>}
    */
-  async find(filterOptions) {
+  async find(filterOptions, sortingOptions, paginationOptions) {
     const collection = this.Collection;
-    const results = collection.filter((item) => {
-      return Object.entries(filterOptions).every(
-        ([key, value]) => item[key] === value
-      );
-    });
+    let results = collection;
 
+    // filtration
+    if (filterOptions) {
+      results = collection.filter((item) => {
+        return Object.entries(filterOptions).every(([key, value]) => {
+          // filter with single predicate
+          if (value.constructor.name === 'Function') {
+            return value(item[key]);
+          }
+
+          // normal filtration
+          return item[key] === value;
+        });
+      });
+    }
+
+    // sorting
+    if (sortingOptions) {
+      results.sort((a, b) => {
+        for (const [key, order] of Object.entries(sortingOptions)) {
+          if (a[key] < b[key]) return order === 1 ? -1 : 1;
+          if (a[key] > b[key]) return order === 1 ? 1 : -1;
+        }
+        return 0;
+      });
+    }
+
+    // pagination
+    if (paginationOptions) {
+      const { pageNum = 1, limit = 10 } = paginationOptions;
+      const startIndex = (pageNum - 1) * limit;
+      results = results.slice(startIndex, startIndex + limit);
+    }
     return results;
   }
 
