@@ -51,12 +51,7 @@ export class UsersService {
       throw new Error(`A user with email ${email} already exists.`);
     }
 
-    const newUser = {
-      name,
-      email,
-      password,
-      role,
-    };
+    const newUser = new User(this.#idGenerator.ID, name, email, password, role);
     await this.#usersModel.create(newUser);
     return newUser;
   }
