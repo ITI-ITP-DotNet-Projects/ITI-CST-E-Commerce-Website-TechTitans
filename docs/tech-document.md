@@ -52,7 +52,7 @@ Below are the key entities and their attributes. This representation ensures cla
 
 #### User
 
-```json
+```txt
 - id: number
 - name: string
 - email: string
@@ -63,7 +63,7 @@ Below are the key entities and their attributes. This representation ensures cla
 
 #### ProductCategory
 
-```json
+```txt
 - id: number
 - name: string
 - parentId?: number
@@ -71,7 +71,7 @@ Below are the key entities and their attributes. This representation ensures cla
 
 #### Product
 
-```json
+```txt
 - id: number
 - name: string
 - price: number
@@ -104,7 +104,7 @@ Below are the key entities and their attributes. This representation ensures cla
 
 #### Promotions
 
-```json
+```txt
 - id: number
 - productId: number
 - discount: number (as percentage)
@@ -114,23 +114,23 @@ Below are the key entities and their attributes. This representation ensures cla
 
 #### ShoppingCart
 
-```json
+```txt
 - id: number
-- customerId: number (id from users collectoin)
+- customerId: number (id from users collection)
 ```
 
 #### ShoppingCartItem
 
-```json
+```txt
 - id: number
 - cartId: number (id from shopping carts collection)
 - productId: number (id from product ids collection)
-- quantity: numer
+- quantity: number
 ```
 
 #### Order
 
-```json
+```txt
 - id: number
 - customerId: number (id from users collection)
 - totalPrice: number
@@ -148,7 +148,7 @@ Below are the key entities and their attributes. This representation ensures cla
 
 #### OrderItem
 
-```json
+```txt
 - id: number
 - orderId: number
 - productId: number (id from product ids collection)
@@ -158,7 +158,7 @@ Below are the key entities and their attributes. This representation ensures cla
 
 #### Payment Method
 
-```json
+```txt
 - id: number
 - type: string
 ```
@@ -197,7 +197,7 @@ class Model {
     - **Getter**: Reads and parses the data from localStorage.
     - **Setter**: Updates and saves the data back to localStorage.
 - **Methods**:
-  - **`find(filterOptions, sortingOptions, paginationOptoins)`**:
+  - **`find(filterOptions, sortingOptions, paginationOptions)`**:
     - Retrieves records matching the specified filter criteria.
     - Supports filtering with single predicates, arrays of predicates, and normal filtration.
     - Supports sorting based on specified fields and order.
@@ -301,7 +301,7 @@ class UsersService {
 - **`isAuthenticated()`**:
   - Checks if a user is currently logged in by verifying the `loggedInUserId` value in local storage.
   - Returns a `Promise<boolean>` resolving to `true` if a user is logged in, or `false` otherwise.
-- **`isAurhorized()`**:
+- **`isAuthorized()`**:
   - Checks if the logged-in user has one of the specified roles.
   - `...roles`: A list of allowed roles (e.g., `'customer'`, `'seller'`, `'admin'`).
   - Returns a `Promise<boolean>` resolving to `true` if the user’s role matches one of the allowed roles, or `false` otherwise.
