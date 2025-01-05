@@ -5,7 +5,6 @@ import { Model } from '../utils/model.js';
 export class UsersService {
   #usersModel;
   #idGenerator;
-  #currentLoggedInUser;
   static #loggedInUserIdKey = 'loggedInUserId';
 
   /**
@@ -22,10 +21,13 @@ export class UsersService {
    *+
    */
   async getCurrentLoggedInUser() {
-    if (this.#currentLoggedInUser) {
-      return this.#currentLoggedInUser;
+    const userId = localStorage.getItem(UsersService.#loggedInUserIdKey);
+    if (!userId) {
+      return null;
     }
-    return null;
+    const [user] = await this.#usersModel.find({ id: Number(userId) });
+
+    return user ? user : null;
   }
 
   /**
@@ -47,12 +49,18 @@ export class UsersService {
       );
     }
 
-    const existingUsers = await this.#usersModel.find({ email });
-    if (existingUsers.length > 0) {
+    const [existingUser] = await this.#usersModel.find({ email });
+    if (existingUser) {
       throw new Error(`A user with email ${email} already exists.`);
     }
 
-    const newUser = new User(this.#idGenerator.ID, name, email, password, role);
+    const newUser = new User(
+      this.#idGenerator.ID,
+      name,
+      email,
+      password,
+      role.toLowerCase()
+    );
     await this.#usersModel.create(newUser);
     return newUser;
   }
@@ -76,14 +84,12 @@ export class UsersService {
       throw new Error('Invalid email or password.');
     }
     localStorage.setItem(UsersService.#loggedInUserIdKey, user.id);
-    this.#currentLoggedInUser = user;
   }
 
   /**
    * @returns {Promise<void>}
    */
   async logout() {
-    this.#currentLoggedInUser = null;
     localStorage.removeItem(UsersService.#loggedInUserIdKey);
   }
 
@@ -117,56 +123,22 @@ export class UsersService {
    * @returns {Promise<boolean>}
    */
   async isAuthenticated() {
-    try {
-      await this.authenticate();
-      return true;
-    } catch (error) {
-      return false;
-    }
+    const loggedInUser = await this.getCurrentLoggedInUser();
+    return Boolean(loggedInUser);
   }
 
   /**
-   *
    * @param  {('customer'|'seller'|'admin')[]} roles
+   * @returns {Promise<boolean>}
    */
   async isAuthorized(...roles) {
-    if (!this.#currentLoggedInUser) {
-      throw new Error('No user is currently logged in.');
+    const loggedInUser = await this.getCurrentLoggedInUser();
+
+    if (!loggedInUser || !roles.includes(loggedInUser.role.toLowerCase())) {
+      return false;
     }
 
-    const user = this.#currentLoggedInUser;
-
-    if (!roles.includes(user.role.toLowerCase())) {
-      throw new Error(
-        `User does not have the required role. Required roles: ${roles.join(
-          ', '
-        )}`
-      );
-    }
-
-    console.log('User is authorized:', user);
-  }
-
-  /**
-   * @returns {Promise<void>}
-   */
-  async authenticate() {
-    try {
-      if (!this.#currentLoggedInUser) {
-        throw new Error('No user is currently logged in.');
-      }
-
-      const user = this.#currentLoggedInUser;
-
-      if (!user.email || !user.password) {
-        throw new Error('User does not have valid credentials.');
-      }
-
-      console.log('User authenticated:', user);
-    } catch (error) {
-      console.error('Authentication failed:', error.message);
-      throw error;
-    }
+    return true;
   }
 }
 
