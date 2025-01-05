@@ -106,11 +106,11 @@ export class ProductsService {
    */
   async updateProduct(id, data2Update) {
     const currentUser = await this.#usersService.getCurrentLoggedInUser();
-    if (!currentUser || currentUser.role !== 'seller') {
-      throw new Error('Only sellers are authorized to update products.');
+    if (!(await this.#usersService.isAuthorized('seller'))) {
+      throw new Error('Unauthorized access');
     }
 
-    const product = await this.#productsModel.find({ id });
+    const [product] = await this.#productsModel.find({ id });
     if (!product || product.sellerId !== currentUser.id) {
       throw new Error('Product not found or unauthorized access.');
     }
