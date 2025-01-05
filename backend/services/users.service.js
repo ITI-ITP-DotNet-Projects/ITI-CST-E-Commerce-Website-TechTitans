@@ -37,20 +37,18 @@ export class UsersService {
    */
   async register({ name, email, password, role }) {
     if (!name || !email || !password || !role) {
-      throw new ValidationError(
-        'All fields (name, email, password, role) are required.'
-      );
+      throw new Error('All fields (name, email, password, role) are required.');
     }
     const validRoles = ['customer', 'seller', 'admin'];
     if (!validRoles.includes(role.toLowerCase())) {
-      throw new ValidationError(
+      throw new Error(
         `Invalid role: ${role}. Allowed roles are: ${validRoles.join(', ')}.`
       );
     }
 
     const existingUsers = await this.#usersModel.find({ email });
     if (existingUsers.length > 0) {
-      throw new ValidationError(`A user with email ${email} already exists.`);
+      throw new Error(`A user with email ${email} already exists.`);
     }
 
     const newUser = {
@@ -71,7 +69,7 @@ export class UsersService {
    */
   async login({ email, password }) {
     if (!email || !password) {
-      throw new ValidationError('Email and password are required.');
+      throw new Error('Email and password are required.');
     }
     const users = await this.#usersModel.find({ email });
     if (users.length === 0) {
@@ -133,9 +131,8 @@ export class UsersService {
    */
   async isAuthenticated() {
     if (this.#currentLoggedInUser) {
-      console.log("true")
+      console.log('true');
       return true;
-      
     }
     return false;
   }
