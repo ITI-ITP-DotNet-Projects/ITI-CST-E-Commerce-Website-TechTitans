@@ -29,7 +29,11 @@ export class OrderItemsService {
    * @returns {Promise<OrderItem[]>} A promise that resolves to an array of orderItems.
    */
   async getOrderItems({ filterOptions, paginationOptions, sortingOptions }) {
-    throw new Error('Not Implemented yet!');
+    return this.#orderItemsModel.find(
+      filterOptions,
+      sortingOptions,
+      paginationOptions
+    );
   }
 
   /**
@@ -37,7 +41,21 @@ export class OrderItemsService {
    * @returns {Promise<OrderItem>}
    */
   async createOrderItem(orderData) {
-    throw new Error('Not Implemented yet!');
+    const currentLoggedInUser =
+      await this.#usersService.getCurrentLoggedInUser();
+    if (
+      !(await this.#usersService.isAuthorized('customer')) ||
+      orderData.customerId != currentLoggedInUser.id
+    ) {
+      throw new Error('Unauthorized access!');
+    }
+
+    const orderItem = new OrderItem({
+      id: this.#idGenerator.generateId(),
+      ...orderData,
+    });
+
+    return this.#orderItemsModel.create(orderItem);
   }
 
   /**
@@ -46,7 +64,14 @@ export class OrderItemsService {
    * @returns {Promise<OrderItem>}
    */
   async updateOrderItem(itemId, data2Update) {
-    throw new Error('Not Implemented yet!');
+    const currentLoggedInUser =
+      await this.#usersService.getCurrentLoggedInUser();
+    const orderItem = await this.#orderItemsModel.findById(itemId);
+    if (orderItem.customerId !== currentLoggedInUser.id) {
+      throw new Error('Unauthorized access!');
+    }
+
+    return this.#orderItemsModel.update(itemId, data2Update);
   }
 
   /**
@@ -54,7 +79,14 @@ export class OrderItemsService {
    * @returns {Promise<OrderItem>}
    */
   async deleteOrderItem(itemId) {
-    throw new Error('Not Implemented yet!');
+    const currentLoggedInUser =
+      await this.#usersService.getCurrentLoggedInUser();
+    const orderItem = await this.#orderItemsModel.findById(itemId);
+    if (orderItem.customerId !== currentLoggedInUser.id) {
+      throw new Error('Unauthorized access!');
+    }
+
+    return this.#orderItemsModel.delete(itemId);
   }
 }
 

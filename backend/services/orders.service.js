@@ -29,7 +29,7 @@ export class OrdersService {
    * @returns {Promise<ShoppingCart[]>} A promise that resolves to an array of orders.
    */
   async getOrders({ filterOptions, paginationOptions, sortingOptions }) {
-    throw new Error('Not Implemented yet!');
+    return this.#ordersModel.find(filterOptions, sortingOptions, paginationOptions);
   }
 
   /**
@@ -37,7 +37,17 @@ export class OrdersService {
    * @returns {Promise<Order>}
    */
   async createOder(orderData) {
-    throw new Error('Not Implemented yet!');
+    const currentUser = await this.#usersService.getCurrentLoggedInUser();
+    if (!(await this.#usersService.isAuthorized('customer')) || orderData.customerId !== currentUser.id) {
+      throw new Error('Unauthorized access!');
+    }
+
+    const order = new Order({
+      id: this.#idGenerator.generateId(),
+      ...orderData,
+    });
+
+    return this.#ordersModel.create(order);
   }
 
   /**
@@ -46,7 +56,18 @@ export class OrdersService {
    * @returns {Promise<Order>}
    */
   async updateOrder(orderId, data2Update) {
-    throw new Error('Not Implemented yet!');
+    const currentUser = await this.#usersService.getCurrentLoggedInUser();
+    if (!(await this.#usersService.isAuthorized('customer'))) {
+      throw new Error('Unauthorized access!');
+    }
+
+    const [order] = await this.#ordersModel.find({ orderId });
+    if (!order || order.customerId !== currentUser.id) {
+      throw new Error('Order not found or unauthorized access.');
+    }
+
+    const updatedOrder = await this.#ordersModel.update(orderId, data2Update);
+    return updatedOrder;
   }
 }
 
