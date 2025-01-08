@@ -29,7 +29,15 @@ export class OrdersService {
    * @returns {Promise<ShoppingCart[]>} A promise that resolves to an array of orders.
    */
   async getOrders({ filterOptions, paginationOptions, sortingOptions }) {
-    return this.#ordersModel.find(filterOptions, sortingOptions, paginationOptions);
+    if (!(await this.#usersService.isAuthenticated())) {
+      throw new Error(`Can't Access this action, Please Login!`);
+    }
+    // NOTE: Future enhancement - We should modify the filtration options based on the user's role to enforce access control, ensuring users can only view orders related to their account.
+    return this.#ordersModel.find(
+      filterOptions,
+      sortingOptions,
+      paginationOptions
+    );
   }
 
   /**
@@ -38,7 +46,10 @@ export class OrdersService {
    */
   async createOder(orderData) {
     const currentUser = await this.#usersService.getCurrentLoggedInUser();
-    if (!(await this.#usersService.isAuthorized('customer')) || orderData.customerId !== currentUser.id) {
+    if (
+      !(await this.#usersService.isAuthorized('customer')) ||
+      orderData.customerId !== currentUser.id
+    ) {
       throw new Error('Unauthorized access!');
     }
 
