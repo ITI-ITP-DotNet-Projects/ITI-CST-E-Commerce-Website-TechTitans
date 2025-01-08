@@ -5,6 +5,7 @@ import {
 import { idGenerator, IdGenerator } from '../utils/idGenerator.js';
 import { Model } from '../utils/model.js';
 import { usersService, UsersService } from './users.service.js';
+
 export class ShoppingCartItemsService {
   #shoppingCartItemsModel;
   #idGenerator;
@@ -73,7 +74,7 @@ export class ShoppingCartItemsService {
     }
 
     try {
-      return this.#shoppingCartItemsModel.update(itemId, data2Update);
+      return await this.#shoppingCartItemsModel.update(itemId, data2Update);
     } catch (error) {
       if (error.message.includes('found')) {
         throw new Error(`Shopping cart item with ID ${itemId} not found.`);
@@ -91,18 +92,21 @@ export class ShoppingCartItemsService {
     if (!(await this.#usersService.isAuthorized('customer'))) {
       throw new Error('Unauthorized access!');
     }
-    const existingItem = await this.#shoppingCartItemsModel.find({
-      id: itemId,
-    });
-    if (!existingItem || (await existingItem).length === 0) {
-      throw new Error(`Shopping cart item with ID ${itemId} not found.`);
+
+    try {
+      return await this.#shoppingCartItemsModel.delete(itemId);
+    } catch (error) {
+      if (error.message.includes('found')) {
+        throw new Error(`Shopping cart item with ID ${itemId} not found.`);
+      } else {
+        throw error;
+      }
     }
-    const deletedItem = await this.#shoppingCartItemsModel.delete(itemId);
-    return deletedItem;
   }
 }
 
 export const shoppingCartItemsService = new ShoppingCartItemsService(
   shoppingCartItemsModel,
-  idGenerator
+  idGenerator,
+  usersService
 );
