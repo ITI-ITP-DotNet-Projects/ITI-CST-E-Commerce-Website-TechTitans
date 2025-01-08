@@ -36,6 +36,12 @@ export class ShoppingCartItemsService {
     paginationOptions,
     sortingOptions,
   }) {
+    if (!(await this.#usersService.isAuthorized('customer', 'admin'))) {
+      throw new Error('Unauthorized access!');
+    }
+
+    //NOTE: We should scope down authority level of customer to only see items related to himself by enforce cartId of him in filtration object (future enhancements)
+
     return this.#shoppingCartItemsModel.find(
       filterOptions,
       paginationOptions,
