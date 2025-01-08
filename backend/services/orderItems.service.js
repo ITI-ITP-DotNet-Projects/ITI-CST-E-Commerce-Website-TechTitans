@@ -29,6 +29,10 @@ export class OrderItemsService {
    * @returns {Promise<OrderItem[]>} A promise that resolves to an array of orderItems.
    */
   async getOrderItems({ filterOptions, paginationOptions, sortingOptions }) {
+    if (!(await this.#usersService.isAuthenticated())) {
+      throw new Error(`Can't Access this action, Please Login!`);
+    }
+    // NOTE: Future enhancement - We should modify the filtration options based on the user's role to enforce access control, ensuring users can only view order items related to their account.
     return this.#orderItemsModel.find(
       filterOptions,
       sortingOptions,
