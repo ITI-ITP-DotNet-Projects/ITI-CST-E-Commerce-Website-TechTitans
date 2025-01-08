@@ -68,17 +68,20 @@ export class OrdersService {
    */
   async updateOrder(orderId, data2Update) {
     const currentUser = await this.#usersService.getCurrentLoggedInUser();
-    if (!(await this.#usersService.isAuthorized('customer'))) {
-      throw new Error('Unauthorized access!');
+
+    if (!(await this.#usersService.isAuthenticated())) {
+      throw new Error(`Can't Access this action, Please Login!`);
     }
 
     const [order] = await this.#ordersModel.find({ orderId });
-    if (!order || order.customerId !== currentUser.id) {
+    if (
+      !order ||
+      (currentUser.role === 'customer' && order.customerId !== currentUser.id)
+    ) {
       throw new Error('Order not found or unauthorized access.');
     }
 
-    const updatedOrder = await this.#ordersModel.update(orderId, data2Update);
-    return updatedOrder;
+    return this.#ordersModel.update(orderId, data2Update);
   }
 }
 
