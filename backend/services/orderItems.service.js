@@ -53,7 +53,7 @@ export class OrderItemsService {
     ) {
       throw new Error('Unauthorized access!');
     }
-
+    // NOTE: Future enhancement - We should enforce that customers can only add items to orders that are pending and ensure that customers can only add items to orders they own.
     const orderItem = new OrderItem({
       id: this.#idGenerator.generateId(),
       ...orderData,
@@ -68,13 +68,10 @@ export class OrderItemsService {
    * @returns {Promise<OrderItem>}
    */
   async updateOrderItem(itemId, data2Update) {
-    const currentLoggedInUser =
-      await this.#usersService.getCurrentLoggedInUser();
-    const orderItem = await this.#orderItemsModel.findById(itemId);
-    if (orderItem.customerId !== currentLoggedInUser.id) {
+    if (!(await this.#usersService.isAuthorized('customer', 'admin'))) {
       throw new Error('Unauthorized access!');
     }
-
+    // NOTE: Future enhancement - We should enforce customers to only update items to orders that are related to them, and also only orders that not completed yet
     return this.#orderItemsModel.update(itemId, data2Update);
   }
 
@@ -83,13 +80,10 @@ export class OrderItemsService {
    * @returns {Promise<OrderItem>}
    */
   async deleteOrderItem(itemId) {
-    const currentLoggedInUser =
-      await this.#usersService.getCurrentLoggedInUser();
-    const orderItem = await this.#orderItemsModel.findById(itemId);
-    if (orderItem.customerId !== currentLoggedInUser.id) {
+    if (!(await this.#usersService.isAuthorized('customer', 'admin'))) {
       throw new Error('Unauthorized access!');
     }
-
+    // NOTE: Future enhancement - We should enforce customers to only delete items from orders which are belong to them, and also orders which are not completed
     return this.#orderItemsModel.delete(itemId);
   }
 }
