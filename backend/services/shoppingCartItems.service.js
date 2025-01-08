@@ -4,18 +4,21 @@ import {
 } from '../models/shoppingCartItems.model.js';
 import { idGenerator, IdGenerator } from '../utils/idGenerator.js';
 import { Model } from '../utils/model.js';
-
+import { usersService, UsersService } from './users.service.js';
 export class ShoppingCartItemsService {
   #shoppingCartItemsModel;
   #idGenerator;
+  #usersService;
 
   /**
    * @param {Model} shoppingCartItemsModel
    * @param {IdGenerator} idGenerator
+   * @param {UsersService} usersService
    */
-  constructor(shoppingCartItemsModel, idGenerator) {
+  constructor(shoppingCartItemsModel, idGenerator, usersService) {
     this.#shoppingCartItemsModel = shoppingCartItemsModel;
     this.#idGenerator = idGenerator;
+    this.#usersService = usersService;
   }
 
   /**
@@ -32,7 +35,11 @@ export class ShoppingCartItemsService {
     paginationOptions,
     sortingOptions,
   }) {
-    throw new Error('Not Implemented yet!');
+    return this.#shoppingCartItemsModel.find(
+      filterOptions,
+      paginationOptions,
+      sortingOptions
+    );
   }
 
   /**
@@ -40,7 +47,19 @@ export class ShoppingCartItemsService {
    * @returns {Promise<ShoppingCartItem>}
    */
   async createShoppingCartItem(itemData) {
-    throw new Error('Not Implemented yet!');
+    const { cartId, productId, quantity } = itemData;
+    
+    if (!(await this.#usersService.isAuthorized('customer'))) {
+      throw new Error('Unauthorized access!');
+    }
+    const newShoppingCartItem = new ShoppingCartItem(
+      this.#idGenerator.ID,
+      cartId,
+      productId,
+      quantity
+    );
+   await this.#shoppingCartItemsModel.create(newShoppingCartItem)
+   return newShoppingCartItem;
   }
 
   /**
@@ -49,7 +68,23 @@ export class ShoppingCartItemsService {
    * @returns {Promise<ShoppingCartItem>}
    */
   async updateShoppingCartItem(itemId, data2Update) {
-    throw new Error('Not Implemented yet!');
+    if (!(await this.#usersService.isAuthorized('customer'))) {
+      throw new Error('Unauthorized access!');
+    }
+    const existingItem=await this.#shoppingCartItemsModel.find({ id: itemId });
+    if(!existingItem || (await existingItem).length===0 ){
+      throw new Error(`Shopping cart item with ID ${itemId} not found.`)
+    }
+    const updatedItem = {};
+   for(let key in existingItem[0] ){
+    updatedItem[key] = existingItem[0][key]
+   }
+   for(let key in data2Update ){
+    updatedItem[key]=data2Update[key] ||  updatedItem[key]
+   }
+
+   await this.#shoppingCartItemsModel.update(itemId,updatedItem)
+   return updatedItem;
   }
 
   /**
@@ -57,7 +92,15 @@ export class ShoppingCartItemsService {
    * @returns {Promise<ShoppingCartItem>}
    */
   async deleteShoppingCartItem(itemId) {
-    throw new Error('Not Implemented yet!');
+    if (!(await this.#usersService.isAuthorized('customer'))) {
+      throw new Error('Unauthorized access!');
+    }
+    const existingItem=await this.#shoppingCartItemsModel.find({ id: itemId });
+    if(!existingItem || (await existingItem).length===0 ){
+      throw new Error(`Shopping cart item with ID ${itemId} not found.`)
+    }
+    const deletedItem=await this.#shoppingCartItemsModel.delete(itemId)
+    return deletedItem;
   }
 }
 
