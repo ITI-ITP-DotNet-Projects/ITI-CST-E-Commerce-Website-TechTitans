@@ -29,7 +29,15 @@ export class OrdersService {
    * @returns {Promise<ShoppingCart[]>} A promise that resolves to an array of orders.
    */
   async getOrders({ filterOptions, paginationOptions, sortingOptions }) {
-    throw new Error('Not Implemented yet!');
+    if (!(await this.#usersService.isAuthenticated())) {
+      throw new Error(`Can't Access this action, Please Login!`);
+    }
+    // NOTE: Future enhancement - We should modify the filtration options based on the user's role to enforce access control, ensuring users can only view orders related to their account.
+    return this.#ordersModel.find(
+      filterOptions,
+      sortingOptions,
+      paginationOptions
+    );
   }
 
   /**
@@ -37,7 +45,20 @@ export class OrdersService {
    * @returns {Promise<Order>}
    */
   async createOder(orderData) {
-    throw new Error('Not Implemented yet!');
+    const currentUser = await this.#usersService.getCurrentLoggedInUser();
+    if (
+      !(await this.#usersService.isAuthorized('customer')) ||
+      orderData.customerId !== currentUser.id
+    ) {
+      throw new Error('Unauthorized access!');
+    }
+
+    const order = new Order({
+      id: this.#idGenerator.generateId(),
+      ...orderData,
+    });
+
+    return this.#ordersModel.create(order);
   }
 
   /**
@@ -46,7 +67,21 @@ export class OrdersService {
    * @returns {Promise<Order>}
    */
   async updateOrder(orderId, data2Update) {
-    throw new Error('Not Implemented yet!');
+    const currentUser = await this.#usersService.getCurrentLoggedInUser();
+
+    if (!(await this.#usersService.isAuthenticated())) {
+      throw new Error(`Can't Access this action, Please Login!`);
+    }
+
+    const [order] = await this.#ordersModel.find({ orderId });
+    if (
+      !order ||
+      (currentUser.role === 'customer' && order.customerId !== currentUser.id)
+    ) {
+      throw new Error('Order not found or unauthorized access.');
+    }
+
+    return this.#ordersModel.update(orderId, data2Update);
   }
 }
 

@@ -29,7 +29,15 @@ export class OrderItemsService {
    * @returns {Promise<OrderItem[]>} A promise that resolves to an array of orderItems.
    */
   async getOrderItems({ filterOptions, paginationOptions, sortingOptions }) {
-    throw new Error('Not Implemented yet!');
+    if (!(await this.#usersService.isAuthenticated())) {
+      throw new Error(`Can't Access this action, Please Login!`);
+    }
+    // NOTE: Future enhancement - We should modify the filtration options based on the user's role to enforce access control, ensuring users can only view order items related to their account.
+    return this.#orderItemsModel.find(
+      filterOptions,
+      sortingOptions,
+      paginationOptions
+    );
   }
 
   /**
@@ -37,7 +45,21 @@ export class OrderItemsService {
    * @returns {Promise<OrderItem>}
    */
   async createOrderItem(orderData) {
-    throw new Error('Not Implemented yet!');
+    const currentLoggedInUser =
+      await this.#usersService.getCurrentLoggedInUser();
+    if (
+      !(await this.#usersService.isAuthorized('customer')) ||
+      orderData.customerId != currentLoggedInUser.id
+    ) {
+      throw new Error('Unauthorized access!');
+    }
+    // NOTE: Future enhancement - We should enforce that customers can only add items to orders that are pending and ensure that customers can only add items to orders they own.
+    const orderItem = new OrderItem({
+      id: this.#idGenerator.generateId(),
+      ...orderData,
+    });
+
+    return this.#orderItemsModel.create(orderItem);
   }
 
   /**
@@ -46,7 +68,11 @@ export class OrderItemsService {
    * @returns {Promise<OrderItem>}
    */
   async updateOrderItem(itemId, data2Update) {
-    throw new Error('Not Implemented yet!');
+    if (!(await this.#usersService.isAuthorized('customer', 'admin'))) {
+      throw new Error('Unauthorized access!');
+    }
+    // NOTE: Future enhancement - We should enforce customers to only update items to orders that are related to them, and also only orders that not completed yet
+    return this.#orderItemsModel.update(itemId, data2Update);
   }
 
   /**
@@ -54,7 +80,11 @@ export class OrderItemsService {
    * @returns {Promise<OrderItem>}
    */
   async deleteOrderItem(itemId) {
-    throw new Error('Not Implemented yet!');
+    if (!(await this.#usersService.isAuthorized('customer', 'admin'))) {
+      throw new Error('Unauthorized access!');
+    }
+    // NOTE: Future enhancement - We should enforce customers to only delete items from orders which are belong to them, and also orders which are not completed
+    return this.#orderItemsModel.delete(itemId);
   }
 }
 

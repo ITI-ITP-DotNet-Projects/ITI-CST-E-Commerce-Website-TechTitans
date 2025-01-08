@@ -35,6 +35,12 @@ export class ShoppingCartItemsService {
     paginationOptions,
     sortingOptions,
   }) {
+    if (!(await this.#usersService.isAuthorized('customer', 'admin'))) {
+      throw new Error('Unauthorized access!');
+    }
+
+    //NOTE: We should scope down authority level of customer to only see items related to himself by enforce cartId of him in filtration object (future enhancements)
+
     return this.#shoppingCartItemsModel.find(
       filterOptions,
       paginationOptions,
@@ -48,7 +54,6 @@ export class ShoppingCartItemsService {
    */
   async createShoppingCartItem(itemData) {
     const { cartId, productId, quantity } = itemData;
-    
     if (!(await this.#usersService.isAuthorized('customer'))) {
       throw new Error('Unauthorized access!');
     }
@@ -58,8 +63,8 @@ export class ShoppingCartItemsService {
       productId,
       quantity
     );
-   await this.#shoppingCartItemsModel.create(newShoppingCartItem)
-   return newShoppingCartItem;
+    await this.#shoppingCartItemsModel.create(newShoppingCartItem);
+    return newShoppingCartItem;
   }
 
   /**
@@ -71,20 +76,16 @@ export class ShoppingCartItemsService {
     if (!(await this.#usersService.isAuthorized('customer'))) {
       throw new Error('Unauthorized access!');
     }
-    const existingItem=await this.#shoppingCartItemsModel.find({ id: itemId });
-    if(!existingItem || (await existingItem).length===0 ){
-      throw new Error(`Shopping cart item with ID ${itemId} not found.`)
-    }
-    const updatedItem = {};
-   for(let key in existingItem[0] ){
-    updatedItem[key] = existingItem[0][key]
-   }
-   for(let key in data2Update ){
-    updatedItem[key]=data2Update[key] ||  updatedItem[key]
-   }
 
-   await this.#shoppingCartItemsModel.update(itemId,updatedItem)
-   return updatedItem;
+    try {
+      return await this.#shoppingCartItemsModel.update(itemId, data2Update);
+    } catch (error) {
+      if (error.message.includes('found')) {
+        throw new Error(`Shopping cart item with ID ${itemId} not found.`);
+      } else {
+        throw error;
+      }
+    }
   }
 
   /**
@@ -95,16 +96,21 @@ export class ShoppingCartItemsService {
     if (!(await this.#usersService.isAuthorized('customer'))) {
       throw new Error('Unauthorized access!');
     }
-    const existingItem=await this.#shoppingCartItemsModel.find({ id: itemId });
-    if(!existingItem || (await existingItem).length===0 ){
-      throw new Error(`Shopping cart item with ID ${itemId} not found.`)
+
+    try {
+      return await this.#shoppingCartItemsModel.delete(itemId);
+    } catch (error) {
+      if (error.message.includes('found')) {
+        throw new Error(`Shopping cart item with ID ${itemId} not found.`);
+      } else {
+        throw error;
+      }
     }
-    const deletedItem=await this.#shoppingCartItemsModel.delete(itemId)
-    return deletedItem;
   }
 }
 
 export const shoppingCartItemsService = new ShoppingCartItemsService(
   shoppingCartItemsModel,
-  idGenerator
+  idGenerator,
+  usersService
 );

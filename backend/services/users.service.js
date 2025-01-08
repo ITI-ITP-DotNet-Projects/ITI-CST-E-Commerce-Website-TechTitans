@@ -17,7 +17,7 @@ export class UsersService {
   }
 
   /**
-   * @returns {User|null}
+   * @returns {Promise<User|null>}
    *+
    */
   async getCurrentLoggedInUser() {
