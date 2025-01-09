@@ -29,27 +29,45 @@ onload = async () => {
 
     let formIsValid = true;
 
-    if (!name.match(namePattern)) {
+    if (!name.trim()) {
       nameInput.classList.add('is-invalid');
       formIsValid = false;
     } else {
-      nameInput.classList.add('is-valid');
+      if (!name.match(namePattern)) {
+        nameInput.classList.add('is-invalid');
+        formIsValid = false;
+      } else {
+        nameInput.classList.add('is-valid');
+      }
     }
-    if (!email.match(emailPattern)) {
+
+    if (!email.trim()) {
       emailInput.classList.add('is-invalid');
       formIsValid = false;
     } else {
-      emailInput.classList.add('is-valid');
+      if (!email.match(emailPattern)) {
+        emailInput.classList.add('is-invalid');
+        formIsValid = false;
+      } else {
+        emailInput.classList.add('is-valid');
+      }
     }
 
-    if (!password.match(passwordPattern)) {
+    if (!password.trim()) {
       passwordInput.classList.add('is-invalid');
-      passwordFeedback.style.display = 'block';
+      passwordFeedback.style.display = 'none';
       formIsValid = false;
     } else {
-      passwordInput.classList.add('is-valid');
+      if (!password.match(passwordPattern)) {
+        passwordInput.classList.add('is-invalid');
+        passwordFeedback.style.display = 'block';
+        formIsValid = false;
+      } else {
+        passwordInput.classList.add('is-valid');
+      }
     }
-    if (!role) {
+
+    if (!role.trim()) {
       roleInput.classList.add('is-invalid');
       formIsValid = false;
     } else {
