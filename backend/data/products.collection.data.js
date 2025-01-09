@@ -562,15 +562,15 @@ export const productsCollectionData = [
     },
   },
   {
-    productID: 10020,
+    id: 10020,
     ProductName: 'Landhoo 6 Pack Case for Apple Watch SE',
-    price_EGP: 1100,
+    price: 1100,
     rating: {
       avgRating: 4.3,
       quantity: 73,
     },
-    CategoryID: 0,
-    Description: `1.Comprehensive Protection:
+    categoryId: 10111,
+    description: `1.Comprehensive Protection:
    Made of hard PC material with a built-in tempered glass screen protector.
    2.Ultra-Thin Design:
   Only 0.1mm thick, maintaining the original touch sensitivity of the watch.
@@ -587,15 +587,15 @@ export const productsCollectionData = [
     },
   },
   {
-    productID: 10021,
+    id: 10021,
     ProductName: 'MioHHR Slim Metal Band Compatible with Apple Watch',
-    price_EGP: 1200,
+    price: 1200,
     rating: {
       avgRating: 2.3,
       quantity: 95,
     },
-    CategoryID: 0,
-    Description: `1.Compatibility: The band is compatible with a range of 
+    categoryId: 10111,
+    description: `1.Compatibility: The band is compatible with a range of 
   Apple Watch models, including Series 1 through 10, as well as SE models
 
 2.Slim and Elegant Design: Featuring a narrow, waist-collecting design, the band measures only 12-14 mm in width,
@@ -620,15 +620,15 @@ this band has been refined and polished to achieve a bright, durable, and rust-r
   },
 
   {
-    productID: 10022,
+    id: 10022,
     ProductName: 'Pack Protective Case for Apple Watch',
-    price_EGP: 1000,
+    price: 1000,
     rating: {
       avgRating: 4,
       quantity: 70,
     },
-    CategoryID: 0,
-    Description: `1Comprehensive Protection: Hard PC material with built-in tempered 
+    categoryId: 10111,
+    description: `1Comprehensive Protection: Hard PC material with built-in tempered 
     glass screen protector to guard against scratches, dust, and impacts.
 
 2.Ultra-Clear Screen: The transparent design ensures high screen clarity and 
@@ -649,15 +649,15 @@ responsiveness, maintaining the original Apple Watch touch experience.
   },
 
   {
-    productID: 4,
+    id: 10023,
     ProductName: 'Tasikar Band Compatible with Apple Watch ',
-    price_EGP: 900,
+    price: 900,
     rating: {
       avgRating: 3.5,
       quantity: 80,
     },
-    CategoryID: 0,
-    Description: `1. Stainless Steel Metal Band:
+    categoryId: 10111,
+    description: `1. Stainless Steel Metal Band:
     Premium Material: Crafted from durable stainless steel, providing a sleek and professional appearance
     
     2. Silicone Magnetic Band:
@@ -679,15 +679,15 @@ responsiveness, maintaining the original Apple Watch touch experience.
   },
 
   {
-    productID: 10023,
+    id: 10024,
     ProductName: 'Parsonver Fitness Tracke ',
-    price_EGP: 3000,
+    price: 3000,
     rating: {
       avgRating: 4,
       quantity: 90,
     },
-    CategoryID: 0,
-    Description: `1-Comprehensive Fitness Tracking:
+    categoryId: 10111,
+    description: `1-Comprehensive Fitness Tracking:
         Tracks steps, calories burned, and distance traveled, helping you stay on top of your fitness goals.
         
         2- Health Monitoring:
@@ -711,15 +711,15 @@ responsiveness, maintaining the original Apple Watch touch experience.
   },
 
   {
-    productID: 10024,
+    id: 10025,
     ProductName: 'Xiaomi Smart Band 8',
-    price_EGP: 1.899,
+    price: 1.899,
     rating: {
       avgRating: 4.5,
       quantity: 80,
     },
-    CategoryID: 0,
-    Description: `1-AMOLED Touch Display: A 1.62-inch AMOLED screen with a resolution of 192 x 490 pixels, 
+    categoryId: 10111,
+    description: `1-AMOLED Touch Display: A 1.62-inch AMOLED screen with a resolution of 192 x 490 pixels, 
     offering bright and vibrant visuals, and a smooth 60Hz refresh rate
         
         2-Health Monitoring: Continuous heart rate tracking, SpO2 measurement, sleep analysis, and breathing exercises.
@@ -739,15 +739,15 @@ responsiveness, maintaining the original Apple Watch touch experience.
     },
   },
   {
-    productID: 10025,
+    id: 10026,
     ProductName: 'WHOOP 4.0 ',
-    price_EGP: 14.4,
+    price: 14.4,
     rating: {
       avgRating: 4.1,
       quantity: 90,
     },
-    CategoryID: 0,
-    Description: `1-Continuous Monitoring: Tracks heart rate, respiratory rate, resting heart rate, heart rate variability,
+    categoryId: 10111,
+    description: `1-Continuous Monitoring: Tracks heart rate, respiratory rate, resting heart rate, heart rate variability,
      skin temperature, blood oxygen levels, daily activity, and sleep.
         
        2-Performance Optimization: Provides insights to improve sleep, manage strain, and enhance recovery
