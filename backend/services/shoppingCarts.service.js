@@ -28,7 +28,11 @@ export class ShoppingCartsService {
    * @returns {Promise<ShoppingCart[]>} A promise that resolves to an array of shoppingCarts.
    */
   async getShoppingCarts({ filterOptions, paginationOptions, sortingOptions }) {
-    throw new Error('Not Implemented yet!');
+    return this.#shoppingCartsModel(
+      filterOptions,
+      paginationOptions,
+      sortingOptions
+    );
   }
 
   /**
@@ -36,7 +40,10 @@ export class ShoppingCartsService {
    * @returns {Promise<ShoppingCart>}
    */
   async createShoppingCart(customerId) {
-    throw new Error('Not Implemented yet!');
+    return this.#shoppingCartsModel.create({
+      id: idGenerator.ID,
+      customerId,
+    });
   }
 }
 
