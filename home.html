@@ -27,7 +27,7 @@
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
       defer
     ></script>
-    <script src="./scripts/main.js" defer type="module"></script>
+    <script src="./scripts/home.js" defer type="module"></script>
     <style>
       /*Nav*/
       nav {
@@ -73,6 +73,17 @@
       }
 
       .benefits-bx i {
+        color: var(--main-color);
+      }
+
+      /*Product Card*/
+      .card--prod .card-title a {
+        text-decoration: none;
+        font-weight: bold;
+        color: var(--gray-color-l9);
+      }
+
+      .card--prod .card-title a:hover {
         color: var(--main-color);
       }
 
@@ -175,7 +186,7 @@
                 </ul>
               </li>
               <li class="nav-item">
-                <a class="nav-link bi bi-cart" href="./cart.html"> </a>
+                <a class="nav-link bi bi-cart" href="./cart.html"></a>
               </li>
             </ul>
           </div>
@@ -266,210 +277,38 @@
           <div class="row col-11 d-flex justify-content-center">
             <h2 class="fs-4 fw-bold text-center">FEATURED PRODUCTS</h2>
           </div>
-          <div class="row d-flex flex-wrap justify-content-around">
-            <!-- Product Card -->
-            <div class="col-11 col-sm-5 col-md-3 col-lg-3">
-              <div class="card mb-4">
-                <img
-                  src="./imgs/Apple15_img1.jpg"
-                  class="card-img-top mx-auto d-block"
-                  alt="Product 4"
-                  style="height: 150px; width: 100%; object-fit: contain"
-                />
-                <div class="card-body">
-                  <h5 class="card-title">Product 4</h5>
-                  <p class="card-text">Description of product 4.</p>
-                  <p class="card-text"><strong>Price: $250</strong></p>
-                  <a href="#" class="btn add-cart-btn">Add to Cart</a>
-                </div>
-              </div>
-            </div>
-            <!--Product Card-->
-            <div class="col-11 col-sm-5 col-md-3 col-lg-3">
-              <div class="card mb-4">
-                <img
-                  src="./imgs/Apple15_img1.jpg"
-                  class="card-img-top mx-auto d-block"
-                  alt="Product 4"
-                  style="height: 150px; width: 100%; object-fit: contain"
-                />
-                <div class="card-body">
-                  <h5 class="card-title">Product 4</h5>
-                  <p class="card-text">Description of product 4.</p>
-                  <p class="card-text"><strong>Price: $250</strong></p>
-                  <a href="#" class="btn add-cart-btn">Add to Cart</a>
-                </div>
-              </div>
-            </div>
-            <div class="col-11 col-sm-5 col-md-3 col-lg-3">
-              <div class="card mb-4">
-                <img
-                  src="./imgs/Apple15_img1.jpg"
-                  class="card-img-top mx-auto d-block"
-                  alt="Product 4"
-                  style="height: 150px; width: 100%; object-fit: contain"
-                />
-                <div class="card-body">
-                  <h5 class="card-title">Product 4</h5>
-                  <p class="card-text">Description of product 4.</p>
-                  <p class="card-text"><strong>Price: $250</strong></p>
-                  <a href="#" class="btn add-cart-btn">Add to Cart</a>
-                </div>
-              </div>
-            </div>
-            <div class="col-11 col-sm-5 col-md-3 col-lg-3">
-              <div class="card mb-4">
-                <img
-                  src="./imgs/Apple15_img1.jpg"
-                  class="card-img-top mx-auto d-block"
-                  alt="Product 4"
-                  style="height: 150px; width: 100%; object-fit: contain"
-                />
-                <div class="card-body">
-                  <h5 class="card-title">Product 4</h5>
-                  <p class="card-text">Description of product 4.</p>
-                  <p class="card-text"><strong>Price: $250</strong></p>
-                  <a href="#" class="btn add-cart-btn">Add to Cart</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- <div
-            id="productCarousel"
-            class="carousel slide w-100"
-            data-bs-ride="carousel"
+          <div
+            class="row prod-cards-bx d-flex flex-wrap justify-content-around"
           >
-            <div class="carousel-inner">
-              <div class="carousel-item d-sm-none active">
-                <div class="row justify-content-center g-3">
-                  <div class="col-11 col-sm-5 col-md-3 col-lg-3">
-                    <div class="card mb-4">
-                      <img
-                        src="./imgs/Apple15_img1.jpg"
-                        class="card-img-top mx-auto d-block"
-                        alt="Product 4"
-                        style="height: 150px; width: 100%; object-fit: contain"
-                      />
-                      <div class="card-body">
-                        <h5 class="card-title">Product 4</h5>
-                        <p class="card-text">Description of product 4.</p>
-                        <p class="card-text"><strong>Price: $250</strong></p>
-                        <a href="#" class="btn add-cart-btn">Add to Cart</a>
-                      </div>
-                    </div>
+            <!-- Product Card -->
+            <!-- <div class="col-11 col-sm-5 col-md-3 col-lg-3">
+              <div class="card mb-4 card--prod">
+                <img
+                  src="./imgs/Apple15_img1.jpg"
+                  class="card-img-top mx-auto d-block"
+                  alt="Product 4"
+                  style="height: 150px; width: 100%; object-fit: contain"
+                />
+                <div class="card-body d-flex flex-column gap-2">
+                  <p class="card-category text-capitalize">MOBILE</p>
+                  <h5 class="card-title fs-4"><a href="#">Product 1</a></h5>
+                  <div class="fs-6">
+                    <span class="text-warning">
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-half"></i>
+                      <i class="bi bi-star"></i>
+                      <i class="bi bi-star"></i>
+                    </span>
+                    <span>(234)</span>
                   </div>
-                  <div class="col-11 col-sm-5 col-md-3 col-lg-3">
-                    <div class="card mb-4">
-                      <img
-                        src="./imgs/Apple15_img2.jpg"
-                        class="card-img-top mx-auto d-block"
-                        alt="Product 5"
-                        style="height: 150px; width: 100%; object-fit: contain"
-                      />
-                      <div class="card-body">
-                        <h5 class="card-title">Product 5</h5>
-                        <p class="card-text">Description of product 5.</p>
-                        <p class="card-text"><strong>Price: $300</strong></p>
-                        <a href="#" class="btn add-cart-btn">Add to Cart</a>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-11 col-sm-5 col-md-3 col-lg-3">
-                    <div class="card mb-4">
-                      <img
-                        src="./imgs/APPLE_IMG1.jpg"
-                        class="card-img-top mx-auto d-block"
-                        alt="Product 5"
-                        style="height: 150px; width: 100%; object-fit: contain"
-                      />
-                      <div class="card-body">
-                        <h5 class="card-title">Product 5</h5>
-                        <p class="card-text">Description of product 5.</p>
-                        <p class="card-text"><strong>Price: $300</strong></p>
-                        <a href="#" class="btn add-cart-btn">Add to Cart</a>
-                      </div>
-                    </div>
-                  </div>
+                  <p class="card-text fs-4"><strong>$250</strong></p>
+                  <a href="#" class="btn add-cart-btn">Add to Cart</a>
                 </div>
               </div>
-              <div class="carousel-item d-sm-none">
-                <div class="row justify-content-center g-3">
-                  <div class="col-11 col-sm-5 col-md-3 col-lg-3">
-                    <div class="card mb-4">
-                      <img
-                        src="./imgs/Apple15_img1.jpg"
-                        class="card-img-top mx-auto d-block"
-                        alt="Product 40"
-                        style="height: 150px; width: 100%; object-fit: contain"
-                      />
-                      <div class="card-body">
-                        <h5 class="card-title">Product 4</h5>
-                        <p class="card-text">Description of product 4.</p>
-                        <p class="card-text"><strong>Price: $250</strong></p>
-                        <a href="#" class="btn add-cart-btn">Add to Cart</a>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-11 col-sm-5 col-md-3 col-lg-3">
-                    <div class="card mb-4">
-                      <img
-                        src="./imgs/Apple15_img2.jpg"
-                        class="card-img-top mx-auto d-block"
-                        alt="Product 5"
-                        style="height: 150px; width: 100%; object-fit: contain"
-                      />
-                      <div class="card-body">
-                        <h5 class="card-title">Product 5</h5>
-                        <p class="card-text">Description of product 5.</p>
-                        <p class="card-text"><strong>Price: $300</strong></p>
-                        <a href="#" class="btn add-cart-btn">Add to Cart</a>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-11 col-sm-5 col-md-3 col-lg-3">
-                    <div class="card mb-4">
-                      <img
-                        src="./imgs/APPLE_IMG1.jpg"
-                        class="card-img-top mx-auto d-block"
-                        alt="Product 5"
-                        style="height: 150px; width: 100%; object-fit: contain"
-                      />
-                      <div class="card-body">
-                        <h5 class="card-title">Product 5</h5>
-                        <p class="card-text">Description of product 5.</p>
-                        <p class="card-text"><strong>Price: $300</strong></p>
-                        <a href="#" class="btn add-cart-btn">Add to Cart</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <button
-              class="carousel-control-prev"
-              type="button"
-              data-bs-target="#productCarousel"
-              data-bs-slide="prev"
-            >
-              <span
-                class="carousel-control-icon bi bi-arrow-left-circle fs-3"
-                aria-hidden="true"
-              ></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button
-              class="carousel-control-next"
-              type="button"
-              data-bs-target="#productCarousel"
-              data-bs-slide="next"
-            >
-              <span
-                class="carousel-control-icon bi bi-arrow-right-circle fs-3"
-                aria-hidden="true"
-              ></span>
-              <span class="visually-hidden">Next</span>
-            </button>
-          </div> -->
+            </div> -->
+            <!--Product Card-->
+          </div>
         </div>
       </main>
 
