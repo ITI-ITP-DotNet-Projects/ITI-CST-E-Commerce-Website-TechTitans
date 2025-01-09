@@ -25,7 +25,7 @@ export class Model {
     let results = collection;
 
     // filtration
-    if (filterOptions) {
+    if (filterOptions && Object.keys(filterOptions).length > 0) {
       results = collection.filter((item) => {
         return Object.entries(filterOptions).every(([key, value]) => {
           // filter with single predicate
@@ -40,7 +40,7 @@ export class Model {
     }
 
     // sorting
-    if (sortingOptions) {
+    if (sortingOptions && Object.keys(sortingOptions).length > 0) {
       results.sort((a, b) => {
         for (const [key, order] of Object.entries(sortingOptions)) {
           if (a[key] < b[key]) return order === 1 ? -1 : 1;
@@ -51,7 +51,11 @@ export class Model {
     }
 
     // pagination
-    if (paginationOptions) {
+    if (
+      paginationOptions &&
+      paginationOptions.pageNum &&
+      paginationOptions.limit
+    ) {
       const { pageNum = 1, limit = 10 } = paginationOptions;
       const startIndex = (pageNum - 1) * limit;
       results = results.slice(startIndex, startIndex + limit);
