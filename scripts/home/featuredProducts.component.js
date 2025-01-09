@@ -32,7 +32,7 @@ export class FeaturedProductsComponent {
     const prodCardTemplate = `<div class="col-11 col-sm-5 col-md-3 col-lg-3">
         <div class="card mb-4 card--prod p-2">
           <img
-            src="./imgs/{{Img}}"
+            src="./imgs/{{img}}"
             class="card-img-top mx-auto d-block"
             alt="Product 4"
             style="height: 150px; width: 100%; object-fit: contain"
@@ -56,9 +56,8 @@ export class FeaturedProductsComponent {
       },
     });
 
-    console.log(category);
     return renderTemplate(prodCardTemplate, {
-      Img: product.images[0],
+      img: product.images[0],
       productName: product.name,
       productPrice: product.price.toLocaleString(),
       avgRating: this.renderStars(product.rating.avgRating),
