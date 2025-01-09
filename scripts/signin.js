@@ -8,44 +8,79 @@ onload = async () => {
   const adminPage = './home.html';
   const sellerPage = './home.html';
   const customerPage = './home.html';
-  // Handle form submission
+
+  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+
   form.onsubmit = async (event) => {
     event.preventDefault();
 
     const email = emailInput.value.trim();
     const password = passwordInput.value;
 
-    // Clear previous feedback
+    emailInput.classList.remove('is-invalid', 'is-valid');
+    passwordInput.classList.remove('is-invalid', 'is-valid');
     passwordFeedback.style.display = 'none';
 
-    try {
-      // Call login function from usersService
-      await usersService.login({ email, password });
+    let formIsValid = true;
 
-      // Get current logged-in user
-      const loggedInUser = await usersService.getCurrentLoggedInUser();
+    if (!email) {
+      emailInput.classList.add('is-invalid');
+      formIsValid = false;
+    } else if (!email.match(emailPattern)) {
+      emailInput.classList.add('is-invalid');
+      formIsValid = false;
+    } else {
+      emailInput.classList.add('is-valid');
+    }
 
-      if (!loggedInUser) {
-        alert('Unable to retrieve logged-in user information.');
-      }
-
-      switch (loggedInUser.role) {
-        case 'admin':
-          window.location.href = adminPage;
-          break;
-        case 'seller':
-          window.location.href = sellerPage;
-          break;
-        case 'customer':
-          window.location.href = customerPage;
-          break;
-        default:
-          alert('Unknown role. Please contact support.');
-      }
-    } catch (error) {
-      // Display error feedback
+    if (!password) {
+      passwordInput.classList.add('is-invalid');
+      passwordFeedback.style.display = 'none';
+      formIsValid = false;
+    } else if (!password.match(passwordPattern)) {
+      passwordInput.classList.add('is-invalid');
       passwordFeedback.style.display = 'block';
-      passwordFeedback.textContent = error.message;
+      passwordFeedback.textContent =
+        'Password must be at least 8 characters long and include one uppercase letter, one lowercase letter, and one number.';
+      formIsValid = false;
+    } else {
+      passwordInput.classList.add('is-valid');
+    }
+
+    if (formIsValid) {
+      try {
+        await usersService.login({ email, password });
+
+        const loggedInUser = await usersService.getCurrentLoggedInUser();
+
+        if (!loggedInUser) {
+          alert('Unable to retrieve logged-in user information.');
+        }
+
+        switch (loggedInUser.role) {
+          case 'admin':
+            window.location.href = adminPage;
+            break;
+          case 'seller':
+            window.location.href = sellerPage;
+            break;
+          case 'customer':
+            window.location.href = customerPage;
+            break;
+          default:
+            alert('Unknown role. Please contact support.');
+        }
+        const successAlert = document.createElement('div');
+        successAlert.classList.add('alert', 'alert-success');
+        successAlert.innerHTML = `User ${newUser.name} has been successfully registered!`;
+        form.appendChild(successAlert);
+      } catch (error) {
+        const errorAlert = document.createElement('div');
+        errorAlert.classList.add('alert', 'alert-danger');
+        errorAlert.innerText = error.message;
+        form.appendChild(errorAlert);
+      }
     }
   };
 };
