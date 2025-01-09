@@ -15,4 +15,12 @@ export const usersCollectionData = [
     password: '1234',
     avatar: 'avatar.jpg',
   },
+  {
+    id: 20905,
+    name: 'Sheldon Copper',
+    email: 'sheldon@example.com',
+    role: 'admin',
+    password: '1234',
+    avatar: 'avatar.jpg',
+  },
 ];
