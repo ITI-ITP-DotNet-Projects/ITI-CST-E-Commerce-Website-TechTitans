@@ -563,7 +563,7 @@ export const productsCollectionData = [
   },
   {
     id: 10020,
-    ProductName: 'Landhoo 6 Pack Case for Apple Watch SE',
+    name: 'Landhoo 6 Pack Case for Apple Watch SE',
     price: 1100,
     rating: {
       avgRating: 4.3,
@@ -588,7 +588,7 @@ export const productsCollectionData = [
   },
   {
     id: 10021,
-    ProductName: 'MioHHR Slim Metal Band Compatible with Apple Watch',
+    name: 'MioHHR Slim Metal Band Compatible with Apple Watch',
     price: 1200,
     rating: {
       avgRating: 2.3,
@@ -621,7 +621,7 @@ this band has been refined and polished to achieve a bright, durable, and rust-r
 
   {
     id: 10022,
-    ProductName: 'Pack Protective Case for Apple Watch',
+    name: 'Pack Protective Case for Apple Watch',
     price: 1000,
     rating: {
       avgRating: 4,
@@ -650,7 +650,7 @@ responsiveness, maintaining the original Apple Watch touch experience.
 
   {
     id: 10023,
-    ProductName: 'Tasikar Band Compatible with Apple Watch ',
+    name: 'Tasikar Band Compatible with Apple Watch ',
     price: 900,
     rating: {
       avgRating: 3.5,
@@ -680,7 +680,7 @@ responsiveness, maintaining the original Apple Watch touch experience.
 
   {
     id: 10024,
-    ProductName: 'Parsonver Fitness Tracke ',
+    name: 'Parsonver Fitness Tracke ',
     price: 3000,
     rating: {
       avgRating: 4,
@@ -712,8 +712,8 @@ responsiveness, maintaining the original Apple Watch touch experience.
 
   {
     id: 10025,
-    ProductName: 'Xiaomi Smart Band 8',
-    price: 1.899,
+    name: 'Xiaomi Smart Band 8',
+    price: 1899,
     rating: {
       avgRating: 4.5,
       quantity: 80,
@@ -740,8 +740,8 @@ responsiveness, maintaining the original Apple Watch touch experience.
   },
   {
     id: 10026,
-    ProductName: 'WHOOP 4.0 ',
-    price: 14.4,
+    name: 'WHOOP 4.0 ',
+    price: 144,
     rating: {
       avgRating: 4.1,
       quantity: 90,
