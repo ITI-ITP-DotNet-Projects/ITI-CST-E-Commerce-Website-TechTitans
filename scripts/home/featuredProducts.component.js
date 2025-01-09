@@ -30,24 +30,26 @@ export class FeaturedProductsComponent {
    */
   async renderProduct(product) {
     const prodCardTemplate = `<div class="col-11 col-sm-5 col-md-3 col-lg-3">
-        <div class="card mb-4 card--prod p-2">
-          <img
-            src="./imgs/{{img}}"
-            class="card-img-top mx-auto d-block"
-            alt="Product 4"
-            style="height: 150px; width: 100%; object-fit: contain"
-          />
-          <div class="card-body d-flex flex-column gap-2">
-            <p class="card-category fs-6 text-capitalize">{{categoryName}}</p>
-            <h5 class="card-title fs-5"><a href="#">{{productName}}</a></h5>
-            <div class="fs-6">
-              {{avgRating}}
-              <span>({{ratingQuantity}})</span>
+         <div class="card mb-4 card--prod p-2 d-flex flex-column">
+            <img
+              src="./imgs/{{img}}"
+              class="card-img-top mx-auto d-block"
+              alt="Product Image"
+              style="height: 150px; width: 100%; object-fit: contain"
+            />
+            <div class="card-body d-flex flex-column gap-2 flex-grow-1">
+              <p class="card-category fs-6 text-capitalize">{{categoryName}}</p>
+              <h5 class="card-title fs-5"><a href="#">{{productName}}</a></h5>
+              <div class="fs-6">
+                {{avgRating}}
+                <span>({{ratingQuantity}})</span>
+              </div>
+              <p class="card-text fs-5"><strong>&pound; {{productPrice}}</strong></p>
+              <div class="w-100 mt-auto">
+                <a href="#" class="btn add-cart-btn w-100">Add to Cart</a>
+              </div>
             </div>
-            <p class="card-text fs-5"><strong>&pound; {{productPrice}}</strong></p>
-            <a href="#" class="btn add-cart-btn">Add to Cart</a>
           </div>
-        </div>
       </div>`;
 
     const [category] = await productCategoriesService.getProductCategories({
