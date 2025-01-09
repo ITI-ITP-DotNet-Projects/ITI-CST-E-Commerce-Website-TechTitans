@@ -98,7 +98,7 @@ export class UsersService {
    * @returns {Promise<User[]>}
    */
   async getUsers(filterOptions) {
-    throw new Error('Method not implemented yet!');
+    return this.#usersModel.find(filterOptions);
   }
 
   /**
@@ -108,7 +108,15 @@ export class UsersService {
    * @returns {Promise<User>}
    */
   async updateUser(id, data2Update) {
-    throw new Error('Method not implemented yet!');
+    if (
+      !this.isAuthenticated() ||
+      (await this.getCurrentLoggedInUser()).id != id
+    ) {
+      throw new Error('Invalid access!');
+    }
+    delete data2Update?.id;
+    delete data2Update?.role;
+    return this.#usersModel.update(id, data2Update);
   }
 
   /**
@@ -116,7 +124,13 @@ export class UsersService {
    * @returns {Promise<User>}
    */
   async deleteUser(id) {
-    throw new Error('Method not implemented yet!');
+    if (
+      !this.isAuthenticated() ||
+      (await this.getCurrentLoggedInUser()).id != id
+    ) {
+      throw new Error('Invalid access!');
+    }
+    return this.#usersModel.delete(id);
   }
 
   /**
