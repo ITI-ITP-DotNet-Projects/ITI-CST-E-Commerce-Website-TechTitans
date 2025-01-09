@@ -406,8 +406,6 @@ export const productsCollectionData = [
       dimensions: '165.1 x 76.5 x 8.1 mm',
     },
   },
-
-  ,
   {
     id: 10015,
     name: 'Realme 12 Pro+',
@@ -582,7 +580,7 @@ export const productsCollectionData = [
     Stock: 0,
     sellerId: 20904,
     images: ['Miohhr Watch 1.jpg', 'miohhrWatch2.jpg', 'miohhrWatch3.jpg'],
-    Specs: {
+    specification: {
       brand: 'Landhoo',
       size: '40mm',
       weight: '40.8 grams',
@@ -614,7 +612,7 @@ this band has been refined and polished to achieve a bright, durable, and rust-r
       'MIOHHR2.jpg',
       'MIOHHRsimMetal 3.jpg',
     ],
-    Specs: {
+    specification: {
       brand: 'MioHHR',
       size: '42mm, 44mm, 45mm',
       weight: '40.8 grams',
@@ -643,7 +641,7 @@ responsiveness, maintaining the original Apple Watch touch experience.
     Stock: 0,
     sellerId: 20904,
     images: ['watch1_.jpg', 'watch2_.jpg', 'watch3.jpg'],
-    Specs: {
+    specification: {
       brand: 'TAURI',
       size: '40mm',
       weight: '45 grams',
@@ -673,7 +671,7 @@ responsiveness, maintaining the original Apple Watch touch experience.
     Stock: 0,
     sellerId: 20904,
     images: ['Tasikar Band 1.jpg', 'Tasikar Band2.jpg', 'Tasikar Band3.jpg'],
-    Specs: {
+    specification: {
       brand: 'Tasikar',
       size: '38mm/40mm/41mm/42mm',
       weight: '150 grams',
@@ -705,7 +703,7 @@ responsiveness, maintaining the original Apple Watch touch experience.
     Stock: 0,
     sellerId: 20904,
     images: ['smartWatch 1.jpg', 'smartWatch 2.jpg', 'smartwatch 3.jpg'],
-    Specs: {
+    specification: {
       brand: 'Parsonver',
       size: 'Adjustable strap fits a wide range of wrist sizes',
       weight: 'weigh between 37 grams and 40 grams',
@@ -734,7 +732,7 @@ responsiveness, maintaining the original Apple Watch touch experience.
     Stock: 0,
     sellerId: 20904,
     images: ['XiaomiWatch 1.jpg', 'xiamoWatch 2.jpg', 'XiaomiWatch3_.jpg'],
-    Specs: {
+    specification: {
       brand: 'Xiaomi',
       size: '46.5 x 21.5 x 10.99 mm',
       weight: ' 24.5 grams (with the band)',
@@ -760,7 +758,7 @@ responsiveness, maintaining the original Apple Watch touch experience.
     Stock: 0,
     sellerId: 20904,
     images: ['WHOOP 1.jpg', 'WHOOP 2.jpg', 'WHOOP3.jpg'],
-    Specs: {
+    specification: {
       brand: 'WHOOP',
       size: '41.5 x 41.5 x 11.8 mm',
       weight: ' 13.6 grams (without the band',
