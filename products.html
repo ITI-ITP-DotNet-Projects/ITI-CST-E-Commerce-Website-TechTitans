@@ -80,6 +80,31 @@
         transition: all ease 2s;
       }
 
+      /*Product Card*/
+      .card--prod {
+        height: 95%;
+      }
+      .card--prod .card-title a {
+        text-decoration: none;
+        font-weight: bold;
+        color: var(--gray-color-l9);
+      }
+
+      .card--prod .card-title a:hover {
+        color: var(--main-color);
+      }
+
+      .add-cart-btn {
+        background-color: var(--main-color);
+        color: var(--gray-color-l1);
+        font-weight: bold;
+      }
+
+      .add-cart-btn:hover {
+        border-color: var(--main-color) !important;
+        color: var(--main-color);
+      }
+
       /*Footer*/
       footer {
         background-color: var(--gray-color-l9);
@@ -173,86 +198,90 @@
       </header>
 
       <!-- Main -->
-      <main class="container-fluid g-3 d-flex py-5">
-        <!-- Filters for large screens -->
-        <div class="col-lg-3 col-md-4 col-sm-4 d-none d-sm-block">
-          <div class="bg-light border rounded p-4">
-            <div class="list-group">
-              <a
-                href="#categories"
-                class="list-group-item list-group-item-action fw-bold"
-                data-bs-toggle="collapse"
-                >Categories</a
-              >
-              <div class="collapse pt-2" id="categories">
-                <!--Product Categories Filters -->
-              </div>
-              <hr />
-              <a
-                href="#brands"
-                class="list-group-item list-group-item-action fw-bold"
-                data-bs-toggle="collapse"
-                >All Brands</a
-              >
-              <div class="collapse pt-2" id="brands">
-                <!--Product Brands Filters -->
-              </div>
-              <hr />
-              <a
-                href="#priceRange"
-                class="list-group-item list-group-item-action fw-bold"
-                data-bs-toggle="collapse"
-                >Price
-              </a>
-              <div class="collapse" id="priceRange">
-                <div class="form-group mt-3">
-                  <label for="priceRange">Price</label>
-                  <div class="d-flex justify-content-between">
-                    <input
-                      type="range"
-                      class="form-range"
-                      min="1000"
-                      max="50000"
-                      step="500"
-                      id="minRange"
-                      oninput="updatePriceRange(this.value, 'minPrice')"
-                    />
-                    <input
-                      type="range"
-                      class="form-range"
-                      min="60000"
-                      max="100000"
-                      step="500"
-                      id="maxRange"
-                      oninput="updatePriceRange(this.value, 'maxPrice')"
-                    />
-                  </div>
-                  <div class="d-flex justify-content-between">
-                    <span class="ms-0 price-box" id="minPrice">100</span>
-                    <span class="price-box" id="maxPrice">5000</span>
-                  </div>
+      <main class="container-fluid">
+        <div class="row p-5">
+          <!-- Filters for large screens -->
+          <div class="col-lg-3 col-md-4 d-none d-md-block">
+            <div class="bg-light border rounded p-4">
+              <div class="list-group">
+                <a
+                  href="#categories"
+                  class="list-group-item list-group-item-action fw-bold"
+                  data-bs-toggle="collapse"
+                  >Categories</a
+                >
+                <div class="collapse pt-2" id="categories">
+                  <!--Product Categories Filters -->
                 </div>
+                <hr />
+                <a
+                  href="#brands"
+                  class="list-group-item list-group-item-action fw-bold"
+                  data-bs-toggle="collapse"
+                  >All Brands</a
+                >
+                <div class="collapse pt-2" id="brands">
+                  <!--Product Brands Filters -->
+                </div>
+                <hr />
+                <a
+                  href="#priceRange"
+                  class="list-group-item list-group-item-action fw-bold"
+                  data-bs-toggle="collapse"
+                  >Price
+                </a>
+                <div class="collapse" id="priceRange">
+                  <div class="form-group mt-3">
+                    <label for="priceRange">Price</label>
+                    <div class="d-flex justify-content-between">
+                      <input
+                        type="range"
+                        class="form-range"
+                        min="1000"
+                        max="50000"
+                        step="500"
+                        id="minRange"
+                        oninput="updatePriceRange(this.value, 'minPrice')"
+                      />
+                      <input
+                        type="range"
+                        class="form-range"
+                        min="60000"
+                        max="100000"
+                        step="500"
+                        id="maxRange"
+                        oninput="updatePriceRange(this.value, 'maxPrice')"
+                      />
+                    </div>
+                    <div class="d-flex justify-content-between">
+                      <span class="ms-0 price-box" id="minPrice">100</span>
+                      <span class="price-box" id="maxPrice">5000</span>
+                    </div>
+                  </div>
 
-                <script>
-                  function updatePriceRange(value, priceType) {
-                    if (priceType === 'minPrice') {
-                      document.getElementById(
-                        'minPrice'
-                      ).textContent = `$${parseInt(value)}`;
-                    } else if (priceType === 'maxPrice') {
-                      document.getElementById(
-                        'maxPrice'
-                      ).textContent = `$${parseInt(value)}`;
+                  <script>
+                    function updatePriceRange(value, priceType) {
+                      if (priceType === 'minPrice') {
+                        document.getElementById(
+                          'minPrice'
+                        ).textContent = `$${parseInt(value)}`;
+                      } else if (priceType === 'maxPrice') {
+                        document.getElementById(
+                          'maxPrice'
+                        ).textContent = `$${parseInt(value)}`;
+                      }
                     }
-                  }
-                </script>
+                  </script>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="prods-bx col-lg-9 col-md-8 col-sm-8">
-          <h2>Products</h2>
-          <div></div>
+          <div
+            class="prods-bx col-lg-9 col-md-8 col-sm-8 d-flex flex-column justify-content-evenly"
+          >
+            <h2 class="px-3">Products</h2>
+            <div class="row" id="productsGallery"></div>
+          </div>
         </div>
       </main>
 
