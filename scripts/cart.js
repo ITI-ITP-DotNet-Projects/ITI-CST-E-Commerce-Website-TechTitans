@@ -20,7 +20,7 @@ async function authenticate() {
   loggedInUser = await usersService.getCurrentLoggedInUser();
 
   if (!loggedInUser || loggedInUser.role != 'customer') {
-    window.location.href = 'home.html';
+    window.location.href = 'signin.html';
   }
 }
 
@@ -46,7 +46,7 @@ function updateSummary(cartItems, productMap) {
   }, 0);
 
   // Update the total price display
-  summaryTotalPriceElement.value = `$${total.toFixed(2)}`;
+  summaryTotalPriceElement.value = `£${total.toFixed(2)}`;
 }
 
 function addCartEventListeners(productMap) {
@@ -198,8 +198,10 @@ async function renderCart() {
             </div>
             <div class="col-md-6">
               <h5>${product.name || 'Unknown Product'}</h5>
-              <p>Price: $${product.price?.toFixed(2) || '0.00'}</p>
-              <p class="item-total">Total: $${itemTotalPrice.toFixed(2)}</p>
+              <p>Price: &pound;${product.price?.toFixed(2) || '0.00'}</p>
+              <p class="item-total">Total: &pound;${itemTotalPrice.toFixed(
+                2
+              )}</p>
             </div>
             <div class="col-md-3 text-end">
               <div class="d-flex align-items-center mb-2">
@@ -243,7 +245,7 @@ async function handleCheckout() {
     renderCart;
     const orderData = {
       customerId: loggedInUser.id,
-      totalPrice: parseFloat(summaryTotalPriceElement.value.replace('$', '')),
+      totalPrice: parseFloat(summaryTotalPriceElement.value.replace('£', '')),
       status: 'pending',
       createdAt: new Date(),
     };
