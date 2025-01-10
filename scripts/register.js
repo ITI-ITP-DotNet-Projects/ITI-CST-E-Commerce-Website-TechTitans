@@ -1,6 +1,8 @@
 import { usersService } from '../backend/services/users.service.js';
+import { renderNavBar } from './common/navbar.component.js';
 
 onload = async () => {
+  await renderNavBar();
   const form = document.getElementsByTagName('form')[0];
   form.onsubmit = async (event) => {
     event.preventDefault();

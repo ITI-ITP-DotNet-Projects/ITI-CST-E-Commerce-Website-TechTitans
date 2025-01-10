@@ -1,4 +1,7 @@
+import { renderNavBar } from './common/navbar.component.js';
+
 onload = async () => {
+  await renderNavBar();
   const map = L.map('map').setView([30.7743, 31.0026], 13);
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

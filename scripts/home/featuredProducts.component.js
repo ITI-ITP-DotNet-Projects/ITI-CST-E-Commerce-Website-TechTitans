@@ -5,11 +5,16 @@ import { renderTemplate } from '../../backend/utils/renderTemplate.js';
 import { usersService } from '../../backend/services/users.service.js';
 import { shoppingCartsService } from '../../backend/services/shoppingCarts.service.js';
 import { shoppingCartItemsService } from '../../backend/services/shoppingCartItems.service.js';
-import { showSuccessMessage } from '../showSuccessMessage.js';
+import { showSuccessMessage } from '../common/showSuccessMessage.js';
 
 export class FeaturedProductsComponent {
-  #prodCardsBxElement = document.querySelector('.prod-cards-bx');
+  #prodCardsBxElement = document.querySelector(
+    FeaturedProductsComponent.Selector
+  );
 
+  static get Selector() {
+    return '.prod-cards-bx';
+  }
   /**
    * @param {number} avgRating
    * @returns {string}
@@ -34,7 +39,7 @@ export class FeaturedProductsComponent {
    */
   async renderProduct(product) {
     const prodCardTemplate = `<div class="col-11 col-sm-5 col-md-3 col-lg-3">
-         <div class="card mb-4 card--prod p-2 d-flex flex-column">
+         <div class="card mb-4 card--prod p-2 d-flex flex-column" data-prod_id="{{id}}">
             <img
               src="./imgs/{{img}}"
               class="card-img-top mx-auto d-block"
@@ -50,7 +55,7 @@ export class FeaturedProductsComponent {
               </div>
               <p class="card-text fs-5"><strong>&pound; {{productPrice}}</strong></p>
               <div class="w-100 mt-auto">
-                <a href="#" class="btn add-cart-btn w-100">Add to Cart</a>
+                <a href="#" class="btn add-cart-btn w-100"data-prod_id="{{id}}">Add to Cart</a>
               </div>
             </div>
           </div>
@@ -63,6 +68,7 @@ export class FeaturedProductsComponent {
     });
 
     return renderTemplate(prodCardTemplate, {
+      id: product.id,
       img: product.images[0],
       productName: product.name,
       productPrice: product.price.toLocaleString(),
@@ -88,7 +94,9 @@ export class FeaturedProductsComponent {
     document.querySelectorAll('.add-cart-btn').forEach((bnt) => {
       bnt.addEventListener('click', async (e) => {
         e.preventDefault();
+        console.log(e.target);
         const productId = +e.target.dataset.prod_id;
+        console.log(productId);
         const loggedInUser = await usersService.getCurrentLoggedInUser();
 
         if (!loggedInUser) {
