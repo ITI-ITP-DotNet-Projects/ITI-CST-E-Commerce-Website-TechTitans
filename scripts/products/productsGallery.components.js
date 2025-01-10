@@ -191,7 +191,7 @@ export class ProductsGalleryComponent {
       />
       <div class="card-body d-flex flex-column gap-2 flex-grow-1">
         <p class="card-category fs-6 text-capitalize">{{categoryName}}</p>
-        <h5 class="card-title fs-5"><a href="#">{{productName}}</a></h5>
+        <h5 class="card-title fs-5"><a href="productdetails.html" class="product-name" data-prod_id={{id}}>{{productName}}</a></h5>
         <div class="fs-6">
           {{avgRating}}
           <span>({{ratingQuantity}})</span>
@@ -300,6 +300,15 @@ export class ProductsGalleryComponent {
           // Show success message
           showSuccessMessage('Product added to cart successfully!');
         }
+      });
+
+      // registerEvents for productName
+      document.querySelectorAll('.product-name').forEach((ele) => {
+        ele.addEventListener('click', (e) => {
+          e.preventDefault();
+          localStorage.setItem('productId', e.target.dataset.prod_id);
+          window.location.href = 'productdetails.html';
+        });
       });
     });
   }

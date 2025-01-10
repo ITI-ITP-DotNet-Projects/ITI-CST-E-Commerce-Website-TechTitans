@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TechTitans - Products</title>
+    <meta
+      name="description"
+      content="TechTitans is a comprehensive e-commerce platform for all your tech needs."
+    />
+    <link rel="icon" href="./imgs/logo.png" />
+    <link rel="stylesheet" href="./styles/bootstrap.min.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles/main.css" />
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+      defer
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
+      defer
+    ></script>
+    <script src="./scripts/productdetails.js" defer type="module"></script>
+    <style>
+      /*Main box container*/
+      .main-bx {
+        height: 100vh;
+      }
+
+      /*Nav*/
+      nav {
+        color: var(--gray-color-l7);
+        background-color: var(--main-color);
+      }
+
+      nav * {
+        color: inherit !important;
+      }
+
+      nav .brand-name,
+      .nav-link.active {
+        color: var(--gray-color-l9) !important;
+      }
+
+      /*Main*/
+
+      .btn--filter {
+        background-color: var(--main-color);
+        color: var(--gray-color-l1);
+      }
+
+      .btn--filter:hover {
+        border-color: var(--main-color);
+        color: var(--main-color);
+      }
+
+      /*Checkboxes*/
+      input[type='checkbox'] {
+        accent-color: var(--main-color);
+        width: 1.2rem;
+        height: 1.1rem;
+        cursor: pointer;
+        border-radius: 1.2rem;
+        vertical-align: middle;
+        position: relative;
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+      }
+
+      /*Price Range*/
+      input[type='range']::-webkit-slider-runnable-track {
+        background-color: var(--gray-color-l3);
+      }
+
+      input[type='range']::-webkit-slider-thumb {
+        background-color: var(--main-color);
+      }
+
+      .collapse {
+        transition: all ease 1s;
+      }
+
+      main {
+        transition: all ease 2s;
+      }
+
+      /*Product Card*/
+      .card--prod {
+        height: 95%;
+      }
+      .card--prod .card-title a {
+        text-decoration: none;
+        font-weight: bold;
+        color: var(--gray-color-l9);
+      }
+
+      .card--prod .card-title a:hover {
+        color: var(--main-color);
+      }
+
+      .add-cart-btn {
+        background-color: var(--main-color);
+        color: var(--gray-color-l1);
+        font-weight: bold;
+      }
+
+      .add-cart-btn:hover {
+        border-color: var(--main-color) !important;
+        color: var(--main-color);
+      }
+
+      .dropdown-btn {
+        background-color: var(--main-color);
+        color: var(--gray-color-l1);
+      }
+
+      #pagination-bx {
+        background-color: inherit;
+      }
+
+      .page-item.active {
+        background-color: var(--main-color) !important;
+        color: var(--gray-color-l1) !important;
+      }
+
+      /*Footer*/
+      footer {
+        background-color: var(--gray-color-l9);
+        color: var(--gray-color-l1);
+      }
+
+      footer a {
+        text-decoration: none;
+      }
+
+      footer a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main-bx container-fluid d-flex flex-column gap-5 g-0">
+      <!-- Header -->
+      <header class="container-fluid g-0 d-flex flex-column gap-5">
+        <!--Navbar-->
+        <nav class="navbar fixed-top navbar-expand-lg w-100 px-4" id="mainNav">
+          <!-- <a class="navbar-brand d-flex align-items-center" href="home.html">
+            <img
+              src="./imgs/logo.png"
+              alt="Logo"
+              class="img-fluid"
+              style="max-width: 50px; max-height: 50px"
+            />
+            <span class="ms-2 fw-bold fs-4 brand-name">TechTitans</span>
+          </a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto fw-bold fs-6">
+              <li class="nav-item">
+                <a class="nav-link active" href="./home.html">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="./products.html">Products</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="./contact.html">Contact</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="./signin.html"
+                  ><i class="bi bi-person"></i> Sign In</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link bi bi-cart" href="./cart.html"></a>
+              </li>
+            </ul>
+          </div> -->
+        </nav>
+      </header>
+
+      <!-- Main -->
+      <main class="container">
+        <div class="row g-5 align-items-center">
+          <div class="col-md-6">
+            <img
+              src="./imgs/sample-product.jpg"
+              id="main-product-image"
+              class="img-fluid"
+              alt="Product Image"
+            />
+            <div class="d-flex justify-content-center mt-3">
+              <img
+                src="./imgs/thumb1.jpg"
+                id="thumbnail-1"
+                class="img-thumbnail me-2"
+                style="width: 100px"
+                alt="Thumbnail 1"
+              />
+              <img
+                src="./imgs/thumb2.jpg"
+                id="thumbnail-2"
+                class="img-thumbnail me-2"
+                style="width: 100px"
+                alt="Thumbnail 2"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <h1 id="product-name" class="text-danger">Product Name</h1>
+            <div class="d-flex align-items-center mb-3">
+              <div id="stars"></div>
+              <span class="ms-2" id="rating-count">(45 ratings)</span>
+              <span class="ms-2" id="Quantity">20 in stock</span>
+            </div>
+            <p id="description" class="fw-bold">
+              This is a great product with outstanding features.
+            </p>
+            <p id="product-price" class="text-danger fs-3 fw-bold">$199.99</p>
+            <p class="fw-bold">Brand: <span id="brand">TechBrand</span></p>
+            <p class="fw-bold">Size: <span id="size">Large</span></p>
+            <p class="fw-bold">Weight: <span id="weight">1.5kg</span></p>
+            <!-- Add to Cart Button -->
+            <button class="btn add-cart-btn mt-3" id="add-to-cart-btn">
+              <i class="bi bi-cart"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+
+        <h2 class="text-center text-brown mt-5">Specification</h2>
+        <ul id="specs-list" class="list-group">
+          <li class="list-group-item">Feature 1</li>
+          <li class="list-group-item">Feature 2</li>
+          <li class="list-group-item">Feature 3</li>
+        </ul>
+      </main>
+
+      <!-- Footer -->
+      <footer class="footer container-fluid py-5 bg-dark text-light">
+        <div class="row">
+          <div class="col-md-4 text-center mb-4">
+            <h5>About Us</h5>
+            <p>
+              We are a leading electronics store specializing in high-quality
+              laptops, tablets, and mobile phones. Our mission is to provide the
+              latest technology at competitive prices, with exceptional customer
+              service.
+            </p>
+          </div>
+          <div class="col-md-3 text-center mb-4">
+            <h5>Quick Links</h5>
+            <ul class="list-unstyled">
+              <li><a href="./home.html" class="text-light">Home</a></li>
+              <li><a href="./products.html" class="text-light">Products</a></li>
+              <li><a href="./contact.html" class="text-light">Contact</a></li>
+              <li><a href="./signin.html" class="text-light">Sign In</a></li>
+            </ul>
+          </div>
+          <div class="col-md-5 text-center mb-4">
+            <h5>Contact Us</h5>
+            <p><i class="bi bi-geo-alt"></i> TANTA</p>
+            <p><i class="bi bi-telephone"></i> 1234567890</p>
+            <p><i class="bi bi-envelope"></i> techtiten@gmail.com</p>
+          </div>
+        </div>
+        <div class="text-center mt-4">
+          <p>&copy; 2023 TechTitans. All rights reserved.</p>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
