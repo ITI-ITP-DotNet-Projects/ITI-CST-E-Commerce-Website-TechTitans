@@ -110,7 +110,8 @@ export class ProductsFilterComponent {
     function toggleItemInArray(arr, item) {
       const existingItemIndex = arr.findIndex((ele) => ele == item);
       if (existingItemIndex > -1) {
-        return arr.splice(existingItemIndex, 1);
+        arr.splice(existingItemIndex, 1);
+        return arr;
       } else {
         arr.push(item);
         return arr;
@@ -151,8 +152,6 @@ export class ProductsFilterComponent {
         productsGalleryComponent.SortPopularity = +e.target.dataset.order;
       });
   }
-
-  class;
 
   /**
    * @returns {Promise<void>}

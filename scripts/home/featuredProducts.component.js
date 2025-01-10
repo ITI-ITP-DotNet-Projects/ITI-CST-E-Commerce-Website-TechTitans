@@ -2,6 +2,9 @@ import { Product } from '../../backend/models/products.model.js';
 import { productsService } from '../../backend/services/products.service.js';
 import { productCategoriesService } from '../../backend/services/productCategories.service.js';
 import { renderTemplate } from '../../backend/utils/renderTemplate.js';
+import { usersService } from '../../backend/services/users.service.js';
+import { shoppingCartsService } from '../../backend/services/shoppingCarts.service.js';
+import { shoppingCartItemsService } from '../../backend/services/shoppingCartItems.service.js';
 
 export class FeaturedProductsComponent {
   #prodCardsBxElement = document.querySelector('.prod-cards-bx');
@@ -79,5 +82,38 @@ export class FeaturedProductsComponent {
     this.#prodCardsBxElement.innerHTML = (
       await Promise.all(products.map((prod) => this.renderProduct(prod)))
     ).join('');
+    // register events related to add to cart
+    document.querySelectorAll('.add-cart-btn').forEach((bnt) => {
+      bnt.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const productId = +e.target.dataset.prod_id;
+        const loggedInUser = await usersService.getCurrentLoggedInUser();
+
+        if (!loggedInUser) {
+          window.location.href = 'signin.html';
+        } else {
+          const [shoppingCart] = await shoppingCartsService.getShoppingCarts({
+            filterOptions: {
+              customerId: loggedInUser.id,
+            },
+          });
+          if (
+            !Boolean(
+              (
+                await shoppingCartItemsService.getShoppingCartItems({
+                  filterOptions: { cartId: shoppingCart.id, productId },
+                })
+              ).length
+            )
+          ) {
+            await shoppingCartItemsService.createShoppingCartItem({
+              cartId: shoppingCart.id,
+              productId,
+              quantity: 1,
+            });
+          }
+        }
+      });
+    });
   }
 }

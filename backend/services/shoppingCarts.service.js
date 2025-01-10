@@ -28,7 +28,7 @@ export class ShoppingCartsService {
    * @returns {Promise<ShoppingCart[]>} A promise that resolves to an array of shoppingCarts.
    */
   async getShoppingCarts({ filterOptions, paginationOptions, sortingOptions }) {
-    return this.#shoppingCartsModel(
+    return this.#shoppingCartsModel.find(
       filterOptions,
       paginationOptions,
       sortingOptions
