@@ -4,7 +4,7 @@ export const usersCollectionData = [
     name: 'John Doe',
     email: 'john@example.com',
     role: 'customer',
-    password: '1234',
+    password: 'Test1234',
     avatar: 'avatar.jpg',
   },
   {
@@ -12,7 +12,7 @@ export const usersCollectionData = [
     name: 'Taylor Doe',
     email: 'taylor@example.com',
     role: 'seller',
-    password: '1234',
+    password: 'Test1234',
     avatar: 'avatar.jpg',
   },
   {
@@ -20,7 +20,7 @@ export const usersCollectionData = [
     name: 'Sheldon Copper',
     email: 'sheldon@example.com',
     role: 'admin',
-    password: '1234',
+    password: 'Test1234',
     avatar: 'avatar.jpg',
   },
 ];
