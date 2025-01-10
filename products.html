@@ -115,6 +115,20 @@
         color: var(--main-color);
       }
 
+      .dropdown-btn {
+        background-color: var(--main-color);
+        color: var(--gray-color-l1);
+      }
+
+      #pagination-bx {
+        background-color: inherit;
+      }
+
+      .page-item.active {
+        background-color: var(--main-color) !important;
+        color: var(--gray-color-l1) !important;
+      }
+
       /*Footer*/
       footer {
         background-color: var(--gray-color-l9);
@@ -223,10 +237,93 @@
             </div>
           </div>
           <div
-            class="prods-bx col-lg-9 col-12 d-flex flex-column justify-content-evenly align-itmes-center"
+            class="prods-bx col-lg-9 col-12 d-flex flex-column gap-3 align-itmes-center"
           >
             <h2 class="px-3">Products</h2>
+            <div class="row">
+              <p class="fw-bold">
+                Showing: <span id="numOfProducts">10</span> of
+                <span id="totNumOfProducts">30</span> results
+              </p>
+            </div>
+            <div class="row">
+              <div
+                class="d-flex flex-column flex-md-row justify-content-md-evenly gap-3"
+              >
+                <div class="dropdown">
+                  <a
+                    class="btn dropdown-btn dropdown-toggle fw-bold"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Sorting by popular
+                  </a>
+                  <ul class="dropdown-menu" id="sortPopular">
+                    <li>
+                      <a class="dropdown-item" data-order="-1" href="#"
+                        >most popular</a
+                      >
+                    </li>
+                    <li>
+                      <a class="dropdown-item" data-order="1" href="#"
+                        >less popular</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+                <div class="dropdown">
+                  <a
+                    class="btn dropdown-btn dropdown-toggle fw-bold"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Sorting by Price
+                  </a>
+                  <ul class="dropdown-menu" id="sortPrice">
+                    <li>
+                      <a class="dropdown-item" data-order="-1" href="#"
+                        >high to low</a
+                      >
+                    </li>
+                    <li>
+                      <a class="dropdown-item" data-order="1" href="#"
+                        >low to high</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
             <div class="row" id="productsGallery"></div>
+            <div class="row">
+              <nav
+                aria-label="Page navigation example"
+                id="pagination-bx"
+                class="d-flex w-75 justify-content-center"
+              >
+                <ul class="pagination">
+                  <li class="page-item page--prev">
+                    <a class="page-link fs-5" href="#">Previous</a>
+                  </li>
+                  <li class="page-item page--1">
+                    <a class="page-link fs-5" href="#">1</a>
+                  </li>
+                  <li class="page-item active page--2">
+                    <a class="page-link fs-5" href="#">2</a>
+                  </li>
+                  <li class="page-item page--3">
+                    <a class="page-link fs-5" href="#">3</a>
+                  </li>
+                  <li class="page-item page--next">
+                    <a class="page-link fs-5" href="#">Next</a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
           </div>
         </div>
       </main>
