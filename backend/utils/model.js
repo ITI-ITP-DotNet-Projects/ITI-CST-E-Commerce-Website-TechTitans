@@ -12,45 +12,67 @@ export class Model {
     return this.#collectionKey;
   }
 
-  /**
-   * @param {object} filterOptions
-   * @param {Object<string, -1|1>?} sortingOptions - The sorting options, where keys are fields and values are -1 (descending) or 1 (ascending).
-   * @param {Object?} paginationOptions - The pagination options.
-   * @param {number} paginationOptions.pageNum - The page number to fetch.
-   * @param {number} paginationOptions.limit - The number of items per page.
-   * @returns {Promise<any[]>}
-   */
   async find(filterOptions, sortingOptions, paginationOptions) {
-    const collection = this.Collection;
-    let results = collection;
+    /**
+     * Utility function to check if an object matches the given filter criteria.
+     * @param {object} item - The object to test.
+     * @param {object} filterOptions - The filter options, which can be nested.
+     * @returns {boolean} - Whether the object matches the filter criteria.
+     */
+    function matchesFilter(item, filterOptions) {
+      return Object.entries(filterOptions).every(([key, value]) => {
+        const itemValue = item[key];
 
-    // filtration
-    if (filterOptions && Object.keys(filterOptions).length > 0) {
-      results = collection.filter((item) => {
-        return Object.entries(filterOptions).every(([key, value]) => {
-          // filter with single predicate
-          if (value.constructor.name === 'Function') {
-            return value(item[key]);
-          }
+        if (value && typeof value === 'object' && !Array.isArray(value)) {
+          // Recursively check nested objects
+          return matchesFilter(itemValue, value);
+        }
 
-          // normal filtration
-          return item[key] === value;
-        });
+        if (typeof value === 'function') {
+          // Predicate function
+          return value(itemValue);
+        }
+
+        // Direct equality
+        return itemValue === value;
       });
     }
 
-    // sorting
+    /**
+     * Utility function to get a nested value from an object based on a dot-separated key.
+     * @param {object} obj - The object to extract the value from.
+     * @param {string} path - The dot-separated path to the nested value (e.g., 'specification.brand').
+     * @returns {any} - The value at the specified path, or undefined if the path does not exist.
+     */
+    function getNestedValue(obj, path) {
+      return path
+        .split('.')
+        .reduce((acc, key) => (acc ? acc[key] : undefined), obj);
+    }
+
+    const collection = this.Collection;
+    let results = collection;
+
+    // Filtration
+    if (filterOptions && Object.keys(filterOptions).length > 0) {
+      results = collection.filter((item) => matchesFilter(item, filterOptions));
+    }
+
+    // Sorting
     if (sortingOptions && Object.keys(sortingOptions).length > 0) {
       results.sort((a, b) => {
         for (const [key, order] of Object.entries(sortingOptions)) {
-          if (a[key] < b[key]) return order === 1 ? -1 : 1;
-          if (a[key] > b[key]) return order === 1 ? 1 : -1;
+          const valueA = getNestedValue(a, key);
+          const valueB = getNestedValue(b, key);
+
+          if (valueA < valueB) return order === 1 ? -1 : 1;
+          if (valueA > valueB) return order === 1 ? 1 : -1;
         }
         return 0;
       });
     }
 
-    // pagination
+    // Pagination
     if (
       paginationOptions &&
       paginationOptions.pageNum &&
@@ -60,6 +82,7 @@ export class Model {
       const startIndex = (pageNum - 1) * limit;
       results = results.slice(startIndex, startIndex + limit);
     }
+
     return results;
   }
 
