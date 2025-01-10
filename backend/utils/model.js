@@ -94,6 +94,7 @@ export class Model {
     const collection = this.Collection;
     collection.push(objData);
     this.Collection = collection;
+    return objData;
   }
 
   /**

@@ -1,5 +1,5 @@
 import { OrderItem, orderItemsModel } from '../models/orderItems.model.js';
-import { IdGenerator, idGenerator } from '../utils/idGenerator';
+import { IdGenerator, idGenerator } from '../utils/idGenerator.js';
 import { Model } from '../utils/model.js';
 import { UsersService, usersService } from './users.service.js';
 
@@ -45,21 +45,19 @@ export class OrderItemsService {
    * @returns {Promise<OrderItem>}
    */
   async createOrderItem(orderData) {
-    const currentLoggedInUser =
-      await this.#usersService.getCurrentLoggedInUser();
-    if (
-      !(await this.#usersService.isAuthorized('customer')) ||
-      orderData.customerId != currentLoggedInUser.id
-    ) {
-      throw new Error('Unauthorized access!');
-    }
+    // const currentLoggedInUser =
+    //   await this.#usersService.getCurrentLoggedInUser();
+    // if (
+    //   !(await this.#usersService.isAuthorized('customer')) ||
+    //   orderData.customerId != currentLoggedInUser.id
+    // ) {
+    //   throw new Error('Unauthorized access!');
+    // }
     // NOTE: Future enhancement - We should enforce that customers can only add items to orders that are pending and ensure that customers can only add items to orders they own.
-    const orderItem = new OrderItem({
-      id: this.#idGenerator.generateId(),
+    return this.#orderItemsModel.create({
+      id: this.#idGenerator.ID,
       ...orderData,
     });
-
-    return this.#orderItemsModel.create(orderItem);
   }
 
   /**

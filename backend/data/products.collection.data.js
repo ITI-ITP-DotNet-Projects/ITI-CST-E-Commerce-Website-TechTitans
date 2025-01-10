@@ -577,7 +577,7 @@ export const productsCollectionData = [
   3.High Transparency:
   The screen protector offers 99.99% clarity while preserving the original screen brightness.
 `,
-    Stock: 0,
+    stock: 20,
     sellerId: 20904,
     images: ['Miohhr Watch 1.jpg', 'miohhrWatch2.jpg', 'miohhrWatch3.jpg'],
     specification: {
@@ -605,7 +605,7 @@ export const productsCollectionData = [
 this band has been refined and polished to achieve a bright, durable, and rust-resistant finish.
 
 `,
-    Stock: 0,
+    stock: 15,
     sellerId: 20904,
     images: [
       'MioHHR Slim Metal Band 1.jpg',
@@ -638,7 +638,7 @@ responsiveness, maintaining the original Apple Watch touch experience.
   
   
   `,
-    Stock: 0,
+    stock: 10,
     sellerId: 20904,
     images: ['watch1_.jpg', 'watch2_.jpg', 'watch3.jpg'],
     specification: {
@@ -668,7 +668,7 @@ responsiveness, maintaining the original Apple Watch touch experience.
       
       
       `,
-    Stock: 0,
+    stock: 8,
     sellerId: 20904,
     images: ['Tasikar Band 1.jpg', 'Tasikar Band2.jpg', 'Tasikar Band3.jpg'],
     specification: {
@@ -700,7 +700,7 @@ responsiveness, maintaining the original Apple Watch touch experience.
         Designed to withstand water exposure, making it suitable for everyday use, including handwashing, rain, and swimming.
           
           `,
-    Stock: 0,
+    stock: 9,
     sellerId: 20904,
     images: ['smartWatch 1.jpg', 'smartWatch 2.jpg', 'smartwatch 3.jpg'],
     specification: {
@@ -729,7 +729,7 @@ responsiveness, maintaining the original Apple Watch touch experience.
       up to 16 days of usage on a single charge.
           
           `,
-    Stock: 0,
+    stock: 0,
     sellerId: 20904,
     images: ['XiaomiWatch 1.jpg', 'xiamoWatch 2.jpg', 'XiaomiWatch3_.jpg'],
     specification: {
@@ -755,7 +755,7 @@ responsiveness, maintaining the original Apple Watch touch experience.
       3-Subscription Model: Requires a WHOOP membership, with options starting at $30 per month or $239 annually
           
           `,
-    Stock: 0,
+    stock: 8,
     sellerId: 20904,
     images: ['WHOOP 1.jpg', 'WHOOP 2.jpg', 'WHOOP3.jpg'],
     specification: {

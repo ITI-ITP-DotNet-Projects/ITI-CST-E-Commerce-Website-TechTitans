@@ -1,6 +1,6 @@
 import { Order, ordersModel } from '../models/orders.model.js';
 import { usersService, UsersService } from './users.service.js';
-import { idGenerator, IdGenerator, IdGenerator } from '../utils/idGenerator.js';
+import { idGenerator, IdGenerator } from '../utils/idGenerator.js';
 import { Model } from '../utils/model.js';
 
 export class OrdersService {
@@ -53,12 +53,10 @@ export class OrdersService {
       throw new Error('Unauthorized access!');
     }
 
-    const order = new Order({
-      id: this.#idGenerator.generateId(),
+    return this.#ordersModel.create({
+      id: this.#idGenerator.ID,
       ...orderData,
     });
-
-    return this.#ordersModel.create(order);
   }
 
   /**
