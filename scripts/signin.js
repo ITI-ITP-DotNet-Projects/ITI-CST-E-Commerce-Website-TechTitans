@@ -73,7 +73,7 @@ onload = async () => {
         }
         const successAlert = document.createElement('div');
         successAlert.classList.add('alert', 'alert-success');
-        successAlert.innerHTML = `User ${newUser.name} has been successfully registered!`;
+        successAlert.innerHTML = `LoggedIn successfully!`;
         form.appendChild(successAlert);
       } catch (error) {
         const errorAlert = document.createElement('div');
