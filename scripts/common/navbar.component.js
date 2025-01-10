@@ -8,9 +8,10 @@ import { shoppingCartItemsService } from '../../backend/services/shoppingCartIte
  */
 export async function renderNavBar() {
   const loggedInUser = await usersService.getCurrentLoggedInUser();
-
   let cartItemCount = 0;
-  if (loggedInUser) {
+  let userRole = loggedInUser?.role || 'customer'; // Default role is customer if not logged in
+
+  if (loggedInUser && userRole === 'customer') {
     // Fetch the user's shopping cart
     const [shoppingCart] = await shoppingCartsService.getShoppingCarts({
       filterOptions: { customerId: loggedInUser.id },
@@ -63,15 +64,8 @@ export async function renderNavBar() {
         <li class="nav-item">
           <a class="nav-link {{isActiveContact}}" href="./contact.html">Contact</a>
         </li>
+        {{roleSpecificLinks}}
         {{authLinks}}
-        <li class="nav-item position-relative">
-          <a class="nav-link bi bi-cart" href="./cart.html"></a>
-          ${
-            cartItemCount > 0
-              ? `<span class="badge rounded-pill bg-light position-absolute top-0 start-100 translate-middle">${cartItemCount}</span>`
-              : ''
-          }
-        </li>
       </ul>
     </div>
   `;
@@ -83,6 +77,9 @@ export async function renderNavBar() {
   const isActiveContact = currentPage === 'contact.html' ? 'active' : '';
   const isActiveSignin = currentPage === 'signin.html' ? 'active' : '';
   const isActiveProfile = currentPage === 'profile.html' ? 'active' : '';
+  const isActiveUsers = currentPage === 'users.html' ? 'active' : '';
+  const isActiveOrders = currentPage === 'orders.html' ? 'active' : '';
+  const isActiveCart = currentPage === 'cart.html' ? 'active' : '';
 
   // Conditionally render auth links
   const authLinks = loggedInUser
@@ -97,12 +94,46 @@ export async function renderNavBar() {
          </a>
        </li>`;
 
+  // Conditionally render role-specific links
+  let roleSpecificLinks = '';
+  if (userRole === 'admin') {
+    roleSpecificLinks = `
+      <li class="nav-item">
+        <a class="nav-link ${isActiveUsers}" href="./users.html">
+          <i class="bi bi-people"></i> Users
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link ${isActiveOrders}" href="./orders.html">
+          <i class="bi bi-card-checklist"></i> Orders
+        </a>
+      </li>`;
+  } else if (userRole === 'seller') {
+    roleSpecificLinks = `
+      <li class="nav-item">
+        <a class="nav-link ${isActiveOrders}" href="./orders.html">
+          <i class="bi bi-card-checklist"></i> Orders
+        </a>
+      </li>`;
+  } else if (userRole === 'customer') {
+    roleSpecificLinks = `
+      <li class="nav-item position-relative">
+        <a class="nav-link bi bi-cart ${isActiveCart}" href="./cart.html"></a>
+        ${
+          cartItemCount > 0
+            ? `<span class="badge rounded-pill bg-light position-absolute top-0 start-100 translate-middle">${cartItemCount}</span>`
+            : ''
+        }
+      </li>`;
+  }
+
   // Render the navbar content
   const navBarContent = renderTemplate(navTemplate, {
     isActiveHome,
     isActiveProducts,
     isActiveContact,
     authLinks,
+    roleSpecificLinks,
     cartItemCount,
   });
 

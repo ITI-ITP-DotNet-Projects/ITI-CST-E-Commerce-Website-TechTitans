@@ -131,7 +131,7 @@ async function renderProfileData() {
     return;
   }
 
-  const { id, name, email, password, avatar } = loggedInUser;
+  const { id, name, email, password, role, avatar } = loggedInUser;
 
   firstNameInput.value = name.split(' ')[0];
   lastNameInput.value = name.split(' ')[1];
@@ -139,6 +139,11 @@ async function renderProfileData() {
   emailInput.value = email;
   userNameLabel.innerHTML = name;
   userEmailLabel.innerHTML = email;
+
+  if (role != 'customer') {
+    document.querySelector('#orderItem').classList = 'd-none';
+    document.querySelector('#cartItem').classList = 'd-none';
+  }
 }
 
 onload = async () => {
