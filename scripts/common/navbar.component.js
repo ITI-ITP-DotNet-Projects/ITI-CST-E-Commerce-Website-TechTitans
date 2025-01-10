@@ -81,16 +81,18 @@ export async function renderNavBar() {
   const isActiveHome = currentPage === 'home.html' ? 'active' : '';
   const isActiveProducts = currentPage === 'products.html' ? 'active' : '';
   const isActiveContact = currentPage === 'contact.html' ? 'active' : '';
+  const isActiveSignin = currentPage === 'signin.html' ? 'active' : '';
+  const isActiveProfile = currentPage === 'profile.html' ? 'active' : '';
 
   // Conditionally render auth links
   const authLinks = loggedInUser
     ? `<li class="nav-item">
-         <a class="nav-link" href="./profile.html">
+         <a class="nav-link ${isActiveProfile}" href="./profile.html">
            <i class="bi bi-person-circle"></i> Profile
          </a>
        </li>`
     : `<li class="nav-item">
-         <a class="nav-link" href="./signin.html">
+         <a class="nav-link ${isActiveSignin}" href="./signin.html">
            <i class="bi bi-person"></i> Sign In
          </a>
        </li>`;
