@@ -5,6 +5,7 @@ import { productsService } from '../../backend/services/products.service.js';
 import { usersService } from '../../backend/services/users.service.js';
 import { shoppingCartsService } from '../../backend/services/shoppingCarts.service.js';
 import { shoppingCartItemsService } from '../../backend/services/shoppingCartItems.service.js';
+import { showSuccessMessage } from '../showSuccessMessage.js';
 
 export class ProductsGalleryComponent {
   #filteredCategories = [];
@@ -295,6 +296,9 @@ export class ProductsGalleryComponent {
               quantity: 1,
             });
           }
+
+          // Show success message
+          showSuccessMessage('Product added to cart successfully!');
         }
       });
     });

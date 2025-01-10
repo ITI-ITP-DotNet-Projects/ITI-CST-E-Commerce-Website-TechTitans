@@ -5,6 +5,7 @@ import { renderTemplate } from '../../backend/utils/renderTemplate.js';
 import { usersService } from '../../backend/services/users.service.js';
 import { shoppingCartsService } from '../../backend/services/shoppingCarts.service.js';
 import { shoppingCartItemsService } from '../../backend/services/shoppingCartItems.service.js';
+import { showSuccessMessage } from '../showSuccessMessage.js';
 
 export class FeaturedProductsComponent {
   #prodCardsBxElement = document.querySelector('.prod-cards-bx');
@@ -82,6 +83,7 @@ export class FeaturedProductsComponent {
     this.#prodCardsBxElement.innerHTML = (
       await Promise.all(products.map((prod) => this.renderProduct(prod)))
     ).join('');
+
     // register events related to add to cart
     document.querySelectorAll('.add-cart-btn').forEach((bnt) => {
       bnt.addEventListener('click', async (e) => {
@@ -112,6 +114,9 @@ export class FeaturedProductsComponent {
               quantity: 1,
             });
           }
+
+          // Show success message
+          showSuccessMessage('Product added to cart successfully!');
         }
       });
     });
