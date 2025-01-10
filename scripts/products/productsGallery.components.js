@@ -5,8 +5,106 @@ import { productCategoriesService } from '../../backend/services/productCategori
 import { productsService } from '../../backend/services/products.service.js';
 
 export class ProductsGalleryComponent {
-  get Selector() {
+  #filteredCategories = [];
+  #filteredBrands = [];
+  #sortPrice;
+  #sortPopularity;
+
+  static get Selector() {
     return `#productsGallery`;
+  }
+
+  async #getProducts() {
+    let filterOptions = {};
+
+    if (this.#filteredCategories.length) {
+      filterOptions.categoryId = (id) => this.#filteredCategories.includes(id);
+    }
+
+    if (this.#filteredBrands.length) {
+      filterOptions.specification = {
+        brand: (brand) => this.#filteredBrands.includes(brand),
+      };
+    }
+
+    let sortingOptions = {};
+
+    if (this.#sortPrice) {
+      sortingOptions.price = this.#sortPrice;
+    }
+
+    if (this.#sortPopularity) {
+      sortingOptions = {
+        ...sortingOptions,
+        'rating.avgRating': this.#sortPopularity,
+        'rating.quantity': this.#sortPopularity,
+      };
+    }
+
+    return productsService.getProducts({
+      filterOptions,
+      sortingOptions,
+    });
+  }
+
+  /**
+   * @returns {Array<number>}
+   */
+  get FilterCategories() {
+    return this.#filteredCategories;
+  }
+
+  /**
+   * @param {Array<number>} filterCategories
+   */
+  set FilterCategories(filterCategories) {
+    this.#filteredCategories;
+    this.#getProducts().then((products) => this.renderProductList(products));
+  }
+
+  /**
+   * @param {Array<number>} filteredBrands
+   */
+  set FilteredBrands(filteredBrands) {
+    this.#filteredBrands = filteredBrands;
+    this.#getProducts().then((products) => this.renderProductList(products));
+  }
+
+  /**
+   * @returns {Array<number>}
+   */
+  get FilteredBrands() {
+    return this.#filteredBrands;
+  }
+
+  /**
+   * @param {number} sortPrice
+   */
+  set SortPrice(sortPrice) {
+    this.#sortPrice = sortPrice;
+    this.#getProducts().then((products) => this.renderProductList(products));
+  }
+
+  /**
+   * @returns {number}
+   */
+  get SortPrice() {
+    return this.#sortPrice;
+  }
+
+  /**
+   * @param {number} sortPopularity
+   */
+  set SortPopularity(sortPopularity) {
+    this.#sortPopularity = sortPopularity;
+    this.#getProducts().then((products) => this.renderProductList(products));
+  }
+
+  /**
+   * @returns {number}
+   */
+  get SortPopularity() {
+    return this.#sortPopularity;
   }
 
   /**
@@ -71,10 +169,21 @@ export class ProductsGalleryComponent {
     });
   }
 
-  async render() {
-    const products = await productsService.getProducts({});
-    document.querySelector(this.Selector).innerHTML = (
+  /**
+   * @param {Product[]} products
+   */
+  async renderProductList(products) {
+    const totNumOProducts = await productsService.countProducts({});
+    const numOfProducts = products.length;
+    document.querySelector('#totNumOfProducts').innerHTML = totNumOProducts;
+    document.querySelector('#numOfProducts').innerHTML = numOfProducts;
+    document.querySelector(ProductsGalleryComponent.Selector).innerHTML = (
       await Promise.all(products.map((prod) => this.renderProduct(prod)))
     ).join('');
+  }
+
+  async render() {
+    const products = await productsService.getProducts({});
+    await this.renderProductList(products);
   }
 }

@@ -7,4 +7,5 @@ onload = async () => {
 
   await productFiltersComponent.render();
   await productsGalleryComponent.render();
+  await productFiltersComponent.registerEvents(productsGalleryComponent);
 };
