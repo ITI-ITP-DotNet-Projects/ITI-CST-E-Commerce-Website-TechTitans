@@ -14,7 +14,7 @@ import { Model } from './model.js';
  * @param {Model} model
  */
 function try2Load(model, data) {
-  if (model.Collection.length) return;
+  if (localStorage.getItem(model.collectionKey)) return;
   model.Collection = data;
 }
 
