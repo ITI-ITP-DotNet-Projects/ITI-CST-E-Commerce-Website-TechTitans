@@ -133,6 +133,8 @@ export class ProductsFilterComponent {
               e.target.value
             );
           }
+
+          productsGalleryComponent.PageNum = 1;
         }
       });
 
