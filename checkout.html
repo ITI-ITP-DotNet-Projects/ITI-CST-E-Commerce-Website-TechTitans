@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TechTitans - Signin</title>
+    <meta
+      name="description"
+      content="TechTitans is a comprehensive e-commerce platform for all your tech needs."
+    />
+    <link rel="icon" href="./imgs/logo.png" />
+    <link rel="stylesheet" href="./styles/bootstrap.min.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles/main.css" />
+    <script src="./scripts/checkout.js" defer type="module"></script>
+    <style>
+      /* Login Card*/
+      .card {
+        border-color: var(--main-color);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 0.3rem var(--main-color);
+      }
+
+      .card-title {
+        color: var(--main-color);
+      }
+
+      /*Nav*/
+      nav {
+        color: var(--gray-color-l7);
+        background-color: var(--main-color);
+      }
+
+      nav * {
+        color: inherit !important;
+      }
+
+      nav .brand-name,
+      .nav-link.active {
+        color: var(--gray-color-l9) !important;
+      }
+
+      main {
+        margin-top: 10vh;
+        min-height: 100vh;
+        margin-bottom: 5vh;
+      }
+
+      /*Footer*/
+      footer {
+        background-color: var(--gray-color-l9);
+        color: var(--gray-color-l1);
+      }
+
+      footer a {
+        text-decoration: none;
+      }
+
+      footer a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      class="main-bx container-fluid d-flex flex-column justify-content-between g-0"
+    >
+      <!-- Header -->
+      <header class="container-fluid g-0 d-flex flex-column gap-5">
+        <!--Navbar-->
+        <nav class="navbar fixed-top navbar-expand-lg w-100 px-4" id="mainNav">
+          <!-- <a class="navbar-brand d-flex align-items-center" href="home.html">
+            <img
+              src="./imgs/logo.png"
+              alt="Logo"
+              class="img-fluid"
+              style="max-width: 50px; max-height: 50px"
+            />
+            <span class="ms-2 fw-bold fs-4 brand-name">TechTitans</span>
+          </a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto fw-bold fs-6">
+              <li class="nav-item">
+                <a class="nav-link active" href="./home.html">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="./products.html">Products</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="./contact.html">Contact</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="./signin.html"
+                  ><i class="bi bi-person"></i> Sign In</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link bi bi-cart" href="./cart.html"></a>
+              </li>
+            </ul>
+          </div> -->
+        </nav>
+      </header>
+
+      <!-- Main -->
+      <main class="container">
+        <div class="row justify-content-center">
+          <div class="col-12 col-md-8 col-lg-6">
+            <div class="card my-3">
+              <div class="card-body">
+                <h3 class="card-title text-center fs-1 fw-bold mb-5">
+                  Billing Details
+                </h3>
+                <form>
+                  <!-- First Name and Second Name (on the same row) -->
+                  <div class="mb-3 row">
+                    <div class="col-12 col-md-6">
+                      <label for="first-name" class="form-label"
+                        >First Name</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control shadow-sm"
+                        id="first-name"
+                        name="first-name"
+                      />
+                    </div>
+                    <div class="col-12 col-md-6">
+                      <label for="second-name" class="form-label"
+                        >Second Name</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control shadow-sm"
+                        id="second-name"
+                        name="second-name"
+                      />
+                    </div>
+                  </div>
+
+                  <!-- Email Address -->
+                  <div class="mb-3">
+                    <label for="email" class="form-label">Email Address</label>
+                    <input
+                      type="email"
+                      class="form-control shadow-sm"
+                      id="email"
+                      name="email"
+                    />
+                  </div>
+
+                  <!-- Phone Number -->
+                  <div class="mb-3">
+                    <label for="phone" class="form-label">Phone Number</label>
+                    <input
+                      type="text"
+                      class="form-control shadow-sm"
+                      id="phone"
+                      name="phone"
+                    />
+                  </div>
+
+                  <!-- Address -->
+                  <div class="mb-3">
+                    <label for="address" class="form-label">Address</label>
+                    <input
+                      type="text"
+                      class="form-control shadow-sm"
+                      id="address"
+                      name="address"
+                    />
+                  </div>
+
+                  <!-- Dropdowns for Country and Government -->
+                  <div class="d-flex flex-column flex-md-row mb-3">
+                    <div class="dropdown me-md-3 w-100">
+                      <a
+                        class="btn btn-danger dropdown-toggle w-100 bg-light"
+                        style="color: #303030"
+                        href="#"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        Country
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li class="dropdown-item">India</li>
+                        <li class="dropdown-item">France</li>
+                        <li class="dropdown-item">Germany</li>
+                      </ul>
+                    </div>
+
+                    <div class="dropdown w-100">
+                      <a
+                        class="btn btn-danger dropdown-toggle w-100 bg-light"
+                        style="color: #303030"
+                        href="#"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        Government
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li class="dropdown-item">Cairo</li>
+                        <li class="dropdown-item">Gharbia</li>
+                        <li class="dropdown-item">Paris</li>
+                        <li class="dropdown-item">Giza</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <!-- Zip Code -->
+                  <div class="mb-3">
+                    <label for="zip" class="form-label">Zip Code</label>
+                    <input
+                      type="text"
+                      class="form-control shadow-sm"
+                      id="zip"
+                      name="zip"
+                    />
+                  </div>
+
+                  <!-- Order Notes -->
+                  <div class="mb-3">
+                    <label for="order-notes" class="form-label"
+                      >Order Notes</label
+                    >
+                    <textarea
+                      style="height: 20vh"
+                      class="form-control shadow-sm"
+                      id="order-notes"
+                      name="order-notes"
+                    ></textarea>
+                  </div>
+                  <!-- Payment Method -->
+                  <div class="mb-3">
+                    <div class="dropdown w-100">
+                      <a
+                        class="btn btn-danger dropdown-toggle w-100 bg-light"
+                        style="color: #303030"
+                        href="#"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        Payment Method
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Visa</a></li>
+                        <li>
+                          <a class="dropdown-item" href="#">Credit Card</a>
+                        </li>
+                        <li>
+                          <a class="dropdown-item" href="#">Debit Cards</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <!-- Card Number -->
+                  <div class="mb-3">
+                    <label for="card-number" class="form-label"
+                      >Card Number</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control shadow-sm"
+                      id="card-number"
+                      name="cardnumber"
+                    />
+                  </div>
+
+                  <!-- Expiration Date -->
+                  <div class="mb-3 row">
+                    <div class="col-6 col-sm-6 col-lg-6 col-md-6">
+                      <label for="Expiration-Date" class="form-label"
+                        >Expiration Date</label
+                      >
+                      <input
+                        type="datetime-local"
+                        class="form-control shadow-sm"
+                        id="Expiration-Date"
+                        name="Expiration-Date"
+                        required
+                      />
+                    </div>
+                    <div class="col-6 col-sm-6 col-lg-6 col-md-6">
+                      <label for="cvv" class="form-label">CVV/CVC</label>
+                      <input
+                        type="text"
+                        class="form-control shadow-sm"
+                        id="cvv"
+                        name="cvv"
+                      />
+                    </div>
+                  </div>
+                  <!-- Submit Button -->
+                  <div class="mb-3">
+                    <button
+                      type="Checkout"
+                      class="btn bg-dark text-white fw-bold w-100"
+                    >
+                      Checkout
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- Footer -->
+      <footer class="footer container-fluid py-5 bg-dark text-light">
+        <div class="row">
+          <div class="col-md-4 text-center mb-4">
+            <h5>About Us</h5>
+            <p>
+              We are a leading electronics store specializing in high-quality
+              laptops, tablets, and mobile phones. Our mission is to provide the
+              latest technology at competitive prices, with exceptional customer
+              service.
+            </p>
+          </div>
+          <div class="col-md-3 text-center mb-4">
+            <h5>Quick Links</h5>
+            <ul class="list-unstyled">
+              <li><a href="./home.html" class="text-light">Home</a></li>
+              <li><a href="./products.html" class="text-light">Products</a></li>
+              <li><a href="./contact.html" class="text-light">Contact</a></li>
+              <li><a href="./signin.html" class="text-light">Sign In</a></li>
+            </ul>
+          </div>
+          <div class="col-md-5 text-center mb-4">
+            <h5>Contact Us</h5>
+            <p><i class="bi bi-geo-alt"></i> TANTA</p>
+            <p><i class="bi bi-telephone"></i> 1234567890</p>
+            <p><i class="bi bi-envelope"></i> techtiten@gmail.com</p>
+          </div>
+        </div>
+        <div class="text-center mt-4">
+          <p>&copy; 2023 TechTitans. All rights reserved.</p>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
