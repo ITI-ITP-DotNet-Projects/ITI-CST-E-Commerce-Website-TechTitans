@@ -274,7 +274,7 @@ export const productsCollectionData = [
     sellerId: 20904,
     images: ['Apple15_img1.jpg', 'Apple15_img2.jpg', 'Apple15_img3.jpg'],
     specification: {
-      brand: 'Apple',
+      brand: 'APPLE',
       size: '6.7 inches',
       weight: '240 grams',
       display: 'Super Retina XDR OLED, 120Hz, HDR10',
@@ -305,7 +305,7 @@ export const productsCollectionData = [
       'Samsungs23_img3.jpg',
     ],
     specification: {
-      brand: 'Samsung',
+      brand: 'SAMSUNG',
       size: '6.8 inches',
       weight: '234 grams',
       display: 'Dynamic AMOLED 2X, 120Hz, HDR10+',
@@ -426,7 +426,7 @@ export const productsCollectionData = [
       'RealMe12pro_img3.jpg',
     ],
     specification: {
-      brand: 'Realme',
+      brand: 'REALME',
       size: '6.7 inches',
       weight: '190 grams',
       display: 'AMOLED, 120Hz',
@@ -457,7 +457,7 @@ export const productsCollectionData = [
       'MotorolaEdge50_img3.jpg',
     ],
     specification: {
-      brand: 'Motorola',
+      brand: 'MOTOROLA',
       size: '6.7 inches',
       weight: '197 grams',
       display: 'OLED',
@@ -488,7 +488,7 @@ export const productsCollectionData = [
       'huaweinova12_img3.jpg',
     ],
     specification: {
-      brand: 'Huawei',
+      brand: 'HUAWEI',
       size: '6.5 inches',
       weight: '180 grams',
       display: 'IPS LCD',
@@ -519,7 +519,7 @@ export const productsCollectionData = [
       'OnePlusNord_img3.jpg',
     ],
     specification: {
-      brand: 'OnePlus',
+      brand: 'ONEPLUS',
       size: '6.74 inches',
       weight: '189 grams',
       display: 'AMOLED, 1240 x 2772 pixels',
@@ -550,7 +550,7 @@ export const productsCollectionData = [
       'GooglePixel9_img3.jpg',
     ],
     specification: {
-      brand: 'Google',
+      brand: 'GOOGLE',
       size: '6.7 inches',
       weight: '199 grams',
       display: 'OLED',
@@ -581,7 +581,7 @@ export const productsCollectionData = [
     sellerId: 20904,
     images: ['Miohhr Watch 1.jpg', 'miohhrWatch2.jpg', 'miohhrWatch3.jpg'],
     specification: {
-      brand: 'Landhoo',
+      brand: 'LANDHOO',
       size: '40mm',
       weight: '40.8 grams',
     },
@@ -613,7 +613,7 @@ this band has been refined and polished to achieve a bright, durable, and rust-r
       'MIOHHRsimMetal 3.jpg',
     ],
     specification: {
-      brand: 'MioHHR',
+      brand: 'MIOHHR',
       size: '42mm, 44mm, 45mm',
       weight: '40.8 grams',
     },
@@ -672,7 +672,7 @@ responsiveness, maintaining the original Apple Watch touch experience.
     sellerId: 20904,
     images: ['Tasikar Band 1.jpg', 'Tasikar Band2.jpg', 'Tasikar Band3.jpg'],
     specification: {
-      brand: 'Tasikar',
+      brand: 'TASIKAR',
       size: '38mm/40mm/41mm/42mm',
       weight: '150 grams',
     },
@@ -704,7 +704,7 @@ responsiveness, maintaining the original Apple Watch touch experience.
     sellerId: 20904,
     images: ['smartWatch 1.jpg', 'smartWatch 2.jpg', 'smartwatch 3.jpg'],
     specification: {
-      brand: 'Parsonver',
+      brand: 'PARSONVER',
       size: 'Adjustable strap fits a wide range of wrist sizes',
       weight: 'weigh between 37 grams and 40 grams',
     },
@@ -733,7 +733,7 @@ responsiveness, maintaining the original Apple Watch touch experience.
     sellerId: 20904,
     images: ['XiaomiWatch 1.jpg', 'xiamoWatch 2.jpg', 'XiaomiWatch3_.jpg'],
     specification: {
-      brand: 'Xiaomi',
+      brand: 'XIAOMI',
       size: '46.5 x 21.5 x 10.99 mm',
       weight: ' 24.5 grams (with the band)',
     },
