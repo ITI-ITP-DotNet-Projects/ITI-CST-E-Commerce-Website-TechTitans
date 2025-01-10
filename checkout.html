@@ -182,57 +182,6 @@
                     />
                   </div>
 
-                  <!-- Address -->
-                  <div class="mb-3">
-                    <label for="address" class="form-label">Address</label>
-                    <input
-                      type="text"
-                      class="form-control shadow-sm"
-                      id="address"
-                      name="address"
-                    />
-                  </div>
-
-                  <!-- Dropdowns for Country and Government -->
-                  <div class="d-flex flex-column flex-md-row mb-3">
-                    <div class="dropdown me-md-3 w-100">
-                      <a
-                        class="btn btn-danger dropdown-toggle w-100 bg-light"
-                        style="color: #303030"
-                        href="#"
-                        role="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                      >
-                        Country
-                      </a>
-                      <ul class="dropdown-menu">
-                        <li class="dropdown-item">India</li>
-                        <li class="dropdown-item">France</li>
-                        <li class="dropdown-item">Germany</li>
-                      </ul>
-                    </div>
-
-                    <div class="dropdown w-100">
-                      <a
-                        class="btn btn-danger dropdown-toggle w-100 bg-light"
-                        style="color: #303030"
-                        href="#"
-                        role="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                      >
-                        Government
-                      </a>
-                      <ul class="dropdown-menu">
-                        <li class="dropdown-item">Cairo</li>
-                        <li class="dropdown-item">Gharbia</li>
-                        <li class="dropdown-item">Paris</li>
-                        <li class="dropdown-item">Giza</li>
-                      </ul>
-                    </div>
-                  </div>
-
                   <!-- Zip Code -->
                   <div class="mb-3">
                     <label for="zip" class="form-label">Zip Code</label>
@@ -258,29 +207,29 @@
                   </div>
                   <!-- Payment Method -->
                   <div class="mb-3">
+                    <label for="payment-method" class="form-label"
+                      >Payment Method</label
+                    >
                     <div class="dropdown w-100">
-                      <a
-                        class="btn btn-danger dropdown-toggle w-100 bg-light"
-                        style="color: #303030"
-                        href="#"
-                        role="button"
+                      <button
+                        class="btn btn-light dropdown-toggle w-100"
+                        type="button"
+                        id="payment-method"
                         data-bs-toggle="dropdown"
                         aria-expanded="false"
                       >
-                        Payment Method
-                      </a>
-                      <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Visa</a></li>
-                        <li>
-                          <a class="dropdown-item" href="#">Credit Card</a>
-                        </li>
-                        <li>
-                          <a class="dropdown-item" href="#">Debit Cards</a>
-                        </li>
+                        Select a Payment Method
+                      </button>
+                      <ul class="dropdown-menu" id="payment-method-list">
+                        <!-- Dynamic payment methods will be inserted here -->
                       </ul>
                     </div>
                   </div>
-
+                  <input
+                    type="hidden"
+                    id="payment-method"
+                    name="payment-method"
+                  />
                   <!-- Card Number -->
                   <div class="mb-3">
                     <label for="card-number" class="form-label"
