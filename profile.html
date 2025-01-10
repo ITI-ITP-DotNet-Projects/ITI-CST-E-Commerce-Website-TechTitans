@@ -174,12 +174,13 @@
         <aside class="sidebar">
           <div class="text-center">
             <img
-              src="./Designer.png"
+              src="./imgs/avatar.jpg"
               alt="Profile Picture"
               class="profile-pic"
+              id="userAvatar"
             />
-            <h5 class="mt-2">Amelia Robert</h5>
-            <p class="text-muted">amelia.watson@eshop.com</p>
+            <h5 class="mt-2" id="userName">Amelia Robert</h5>
+            <p class="text-muted" id="userEmail">amelia.watson@eshop.com</p>
           </div>
           <ul class="list-group mt-3">
             <li class="list-group-item">
@@ -193,7 +194,11 @@
               </a>
             </li>
             <li class="list-group-item active">
-              <a href="signin.html" class="text-decoration-none text-white">
+              <a
+                href="signin.html"
+                class="text-decoration-none text-white"
+                id="logoutBtn"
+              >
                 <i class="bi bi-box-arrow-right"></i> Log Out
               </a>
             </li>
@@ -265,16 +270,22 @@
                 <!-- Password -->
                 <div class="col-md-6 position-relative">
                   <label for="password" class="form-label">Password</label>
-                  <input
-                    type="password"
-                    class="form-control"
-                    id="password"
-                    value="********"
-                    required
-                  />
-                  <span class="password-eye">
-                    <i class="bi bi-eye-slash"></i>
-                  </span>
+                  <div class="input-group">
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="password"
+                      value="********"
+                      required
+                    />
+                    <span
+                      class="input-group-text password-eye"
+                      id="togglePassword"
+                    >
+                      <i class="bi bi-eye-slash"></i>
+                    </span>
+                  </div>
+                  <div id="passwordFeedback" class="invalid-feedback"></div>
                 </div>
               </div>
 
@@ -324,18 +335,5 @@
         </div>
       </footer>
     </div>
-
-    <script>
-      document
-        .getElementById('editButton')
-        .addEventListener('click', function () {
-          const form = document.getElementById('accountDetailsForm');
-          if (form.checkValidity()) {
-            alert('Account details validated successfully!');
-          } else {
-            form.reportValidity();
-          }
-        });
-    </script>
   </body>
 </html>
