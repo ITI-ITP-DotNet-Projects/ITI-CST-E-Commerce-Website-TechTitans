@@ -37,6 +37,13 @@
         margin-top: 5vh;
       }
 
+      .view-btn,
+      thead {
+        background-color: var(--main-color);
+        color: var(--gray-color-l1);
+        font-weight: bold;
+      }
+
       /*Nav*/
       nav {
         color: var(--gray-color-l7);
@@ -127,9 +134,70 @@
       <!-- Main -->
       <main>
         <div class="row m-5">
+          <!-- Filters -->
+          <div class="col-12 mb-4">
+            <form class="row g-3 align-items-center">
+              <!-- Filter by Order ID -->
+              <div class="col-md-3">
+                <label for="orderIdFilter" class="form-label fw-bold"
+                  >Order ID</label
+                >
+                <input
+                  type="text"
+                  id="orderIdFilter"
+                  class="form-control"
+                  placeholder="Enter Order ID"
+                />
+              </div>
+
+              <!-- Filter by Customer Name -->
+              <div class="col-md-3">
+                <label for="customerNameFilter" class="form-label fw-bold"
+                  >Customer Name</label
+                >
+                <input
+                  type="text"
+                  id="customerNameFilter"
+                  class="form-control"
+                  placeholder="Enter Customer Name"
+                />
+              </div>
+
+              <!-- Filter by CreatedAt -->
+              <div class="col-md-3">
+                <label for="createdAtFilter" class="form-label fw-bold"
+                  >Created At</label
+                >
+                <input type="date" id="createdAtFilter" class="form-control" />
+              </div>
+
+              <!-- Filter by Status -->
+              <div class="col-md-3">
+                <label for="orderStatusFilter" class="form-label fw-bold"
+                  >Status</label
+                >
+                <select id="orderStatusFilter" class="form-select">
+                  <option value="all">All</option>
+                  <option value="delivered">Delivered</option>
+                  <option value="shipped">Shipped</option>
+                  <option value="confirmed">Confirmed</option>
+                  <option value="pending">Pending</option>
+                  <option value="canceled">Canceled</option>
+                </select>
+              </div>
+
+              <!-- Filter Button -->
+              <!-- <div class="col-md-12 text-end">
+                <button type="button" class="btn fw-bold" id="applyFilters">
+                  Apply Filters
+                </button>
+              </div> -->
+            </form>
+          </div>
+          <!--Table Section-->
           <div class="table-responsive mt-4">
-            <table class="table table-hover table-striped">
-              <thead class="table-dark">
+            <table class="table table-hover table-striped border">
+              <thead>
                 <tr>
                   <th>Order ID</th>
                   <th>Customer Name</th>
@@ -139,7 +207,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr class="table-success">
+                <!-- <tr class="table-success">
                   <td>12</td>
                   <td>Jane Smith</td>
                   <td><span class="badge bg-success">Completed</span></td>
@@ -159,8 +227,10 @@
                   </td>
                   <td>Alex Green</td>
                   <td><span class="badge bg-warning">In Progress</span></td>
-                  <td><a href="#" class="btn btn-primary btn-sm view-btn">View</a></td>
-                </tr>
+                  <td>
+                    <a href="#" class="btn btn-primary btn-sm view-btn">View</a>
+                  </td>
+                </tr> -->
               </tbody>
             </table>
           </div>
