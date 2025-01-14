@@ -83,6 +83,9 @@ async function renderNavBarForCustomers(authLinks, loggedInUser) {
       <li class="nav-item">
         <a class="nav-link" href="./home.html">Home</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="./products.html">Products</a>
+      </li>
       <li class="nav-item position-relative">
         <a class="nav-link bi bi-cart" href="./cart.html"></a>
         ${
