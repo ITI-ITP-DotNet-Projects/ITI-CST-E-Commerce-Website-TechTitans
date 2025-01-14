@@ -7,8 +7,8 @@ onload = async () => {
   const emailInput = document.getElementById('email');
   const passwordInput = document.getElementById('password');
   const passwordFeedback = document.getElementById('passwordFeedback');
-  const adminPage = './home.html';
-  const sellerPage = './home.html';
+  const adminPage = './dashboard.html';
+  const sellerPage = './dashboard.html';
   const customerPage = './home.html';
 
   const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
