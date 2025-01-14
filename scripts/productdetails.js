@@ -128,26 +128,16 @@ function renderStars(rating) {
   return starsHTML;
 }
 function populateSpecifications(specification) {
-  console.log('Specification:', specification);
-
   if (!specification || Object.keys(specification).length === 0) {
-    console.log('Specifications are not available or not found.');
     return;
   }
 
   const specsListElement = document.getElementById('specs-list');
-  if (!specsListElement) {
-    console.log('Element with id "specs-list" not found in the DOM.');
-    return;
-  }
-
   specsListElement.innerHTML = '';
 
   for (let key in specification) {
     if (specification.hasOwnProperty(key)) {
       const value = specification[key];
-
-      console.log(`Adding spec: ${key} - ${value}`);
 
       const listItem = document.createElement('li');
       listItem.className = 'list-group-item custom-item';
@@ -168,7 +158,7 @@ function populateSpecifications(specification) {
         listItem.style.transform = '';
       });
       listItem.style.display = 'flex';
-      listItem.style.justifyContent = 'center';
+      listItem.style.justifyContent = 'start';
       listItem.style.alignItems = 'center';
       listItem.style.textAlign = 'center';
       specsListElement.appendChild(listItem);
