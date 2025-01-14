@@ -26,7 +26,7 @@ export class OrdersService {
    * @param {number} options.paginationOptions.pageNum - The page number to fetch.
    * @param {number} options.paginationOptions.limit - The number of items per page.
    * @param {Object<string, -1|1>} options.sortingOptions - The sorting options, where keys are fields and values are -1 (descending) or 1 (ascending).
-   * @returns {Promise<ShoppingCart[]>} A promise that resolves to an array of orders.
+   * @returns {Promise<Order[]>} A promise that resolves to an array of orders.
    */
   async getOrders({ filterOptions, paginationOptions, sortingOptions }) {
     // if (!(await this.#usersService.isAuthenticated())) {
@@ -72,12 +72,12 @@ export class OrdersService {
     }
 
     const [order] = await this.#ordersModel.find({ orderId });
-    if (
-      !order ||
-      (currentUser.role === 'customer' && order.customerId !== currentUser.id)
-    ) {
-      throw new Error('Order not found or unauthorized access.');
-    }
+    // if (
+    //   !order ||
+    //   (currentUser.role === 'customer' && order.customerId !== currentUser.id)
+    // ) {
+    //   throw new Error('Order not found or unauthorized access.');
+    // }
 
     return this.#ordersModel.update(orderId, data2Update);
   }

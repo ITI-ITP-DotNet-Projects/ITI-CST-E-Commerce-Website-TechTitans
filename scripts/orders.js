@@ -12,8 +12,7 @@ async function renderOrder(order) {
   const statusClasses = {
     pending: 'secondary', // Grey
     confirmed: 'info', // Light Blue
-    shipped: 'warning', // Yellow
-    delivered: 'success', // Green
+    completed: 'success', // Green
     canceled: 'danger', // Red
   };
 
@@ -148,7 +147,14 @@ function handleFilters() {
 }
 
 onload = async () => {
-  await renderNavBar();
-  await renderOrders(await ordersService.getOrders({})); // Load all orders initially
-  handleFilters();
+  const loggedInUser = await usersService.getCurrentLoggedInUser();
+  if (!loggedInUser) {
+    window.location.href = 'signin.html';
+  } else if (loggedInUser.role == 'admin') {
+    await renderNavBar();
+    await renderOrders(await ordersService.getOrders({})); // Load all orders initially
+    handleFilters();
+  } else {
+    document.querySelector('main').innerHTML = `<p>No content</p>`;
+  }
 };

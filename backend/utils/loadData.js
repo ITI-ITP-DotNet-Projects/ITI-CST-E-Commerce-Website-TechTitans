@@ -10,6 +10,8 @@ import { shoppingCartItemsModel } from '../models/shoppingCartItems.model.js';
 import { shoppingCartItemsCollectionData } from '../data/shoppingCartItems.collection.data.js';
 import { ordersCollectionData } from '../data/orders.collection.data.js';
 import { ordersModel } from '../models/orders.model.js';
+import { orderItemsModel } from '../models/orderItems.model.js';
+import { orderItemsCollectionData } from '../data/orderItems.collection.data.js';
 import { Model } from './model.js';
 
 /**
@@ -28,5 +30,6 @@ export function loadData() {
   try2Load(shoppingCartsModel, shoppingCartsCollectionData);
   try2Load(shoppingCartItemsModel, shoppingCartItemsCollectionData);
   try2Load(ordersModel, ordersCollectionData);
+  try2Load(orderItemsModel, orderItemsCollectionData);
   console.log('finish loading data...');
 }

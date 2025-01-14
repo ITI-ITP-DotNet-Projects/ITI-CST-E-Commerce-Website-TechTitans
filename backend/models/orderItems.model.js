@@ -9,6 +9,7 @@ export class OrderItem {
    * @param {number} totalPrice
    */
   constructor(id, orderId, productId, quantity, totalPrice) {
+    this.id = id;
     this.orderId = orderId;
     this.productId = productId;
     this.quantity = quantity;

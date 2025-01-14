@@ -25,7 +25,7 @@ export class Order {
    * @param {number} deliveryFee
    * @param {number} paymentMethodId
    * @param {shippingDetailsOrder} shippingDetails
-   * @param {'pending'|'confirmed'|'shipped'|'delivered'|'canceled'} status
+   * @param {'pending'|'confirmed'|'completed'|'canceled'} status
    * @param {Date} createdAt
    */
   constructor(
