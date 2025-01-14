@@ -207,29 +207,54 @@
                   </div>
                   <!-- Payment Method -->
                   <div class="mb-3">
-                    <label for="payment-method" class="form-label"
-                      >Payment Method</label
-                    >
-                    <div class="dropdown w-100">
-                      <button
-                        class="btn btn-light dropdown-toggle w-100"
-                        type="button"
-                        id="payment-method"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                      >
-                        Select a Payment Method
-                      </button>
-                      <ul class="dropdown-menu" id="payment-method-list">
-                        <!-- Dynamic payment methods will be inserted here -->
-                      </ul>
+                    <label class="form-label">Payment Method</label>
+                    <div class="d-flex gap-3">
+                      <!-- MasterCard Option -->
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          name="payment-method"
+                          id="payment-method-mastercard"
+                          value="MasterCard"
+                        />
+                        <label
+                          class="form-check-label d-flex align-items-center gap-2"
+                          for="payment-method-mastercard"
+                        >
+                          <img
+                            src="./imgs/mastercard.png"
+                            alt="MasterCard"
+                            style="width: 50px; height: auto"
+                          />
+                          <!-- <span>MasterCard</span> -->
+                        </label>
+                      </div>
+
+                      <!-- Visa Option -->
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          name="payment-method"
+                          id="payment-method-visa"
+                          value="Visa"
+                        />
+                        <label
+                          class="form-check-label d-flex align-items-center gap-2"
+                          for="payment-method-visa"
+                        >
+                          <img
+                            src="./imgs/visa.png"
+                            alt="Visa"
+                            style="width: 50px; height: auto"
+                          />
+                          <!-- <span>Visa</span> -->
+                        </label>
+                      </div>
                     </div>
                   </div>
-                  <input
-                    type="hidden"
-                    id="payment-method"
-                    name="payment-method"
-                  />
+
                   <!-- Card Number -->
                   <div class="mb-3">
                     <label for="card-number" class="form-label"
@@ -246,14 +271,14 @@
                   <!-- Expiration Date -->
                   <div class="mb-3 row">
                     <div class="col-6 col-sm-6 col-lg-6 col-md-6">
-                      <label for="Expiration-Date" class="form-label"
+                      <label for="expiration-date" class="form-label"
                         >Expiration Date</label
                       >
                       <input
-                        type="datetime-local"
+                        type="month"
                         class="form-control shadow-sm"
-                        id="Expiration-Date"
-                        name="Expiration-Date"
+                        id="expiration-date"
+                        name="expiration-date"
                         required
                       />
                     </div>

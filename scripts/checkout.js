@@ -4,47 +4,8 @@ import { ordersService } from '../backend/services/orders.service.js';
 
 onload = async () => {
   await renderNavBar();
-  await populatePaymentMethods();
-  setupFormValidation();
+  setupFormValidation(); // Set up form validation
 };
-
-/**
- * Populates the Payment Method dropdown with options fetched from the PaymentMethodsService.
- */
-async function populatePaymentMethods() {
-  try {
-    // Fetch payment methods using the service
-    const paymentMethods = await paymentMethodsService.getPaymentMethods({
-      filterOptions: {},
-      paginationOptions: { pageNum: 1, limit: 10 },
-      sortingOptions: { type: 1 },
-    });
-    console.log(paymentMethods);
-    const dropdownMenu = document.querySelector('.dropdown-menu');
-
-    // Clear existing options
-    dropdownMenu.innerHTML = '';
-
-    // Populate dropdown with payment methods
-    paymentMethods.forEach((method) => {
-      const dropdownItem = document.createElement('li');
-      dropdownItem.innerHTML = `<a class="dropdown-item" href="#">${method.type}</a>`;
-      dropdownMenu.appendChild(dropdownItem);
-    });
-
-    // Set up event listeners for payment method selection
-    const paymentItems = dropdownMenu.querySelectorAll('.dropdown-item');
-    paymentItems.forEach((item) => {
-      item.addEventListener('click', (event) => {
-        // Store the selected payment method
-        document.getElementById('payment-method').value =
-          event.target.textContent;
-      });
-    });
-  } catch (error) {
-    console.error('Failed to load payment methods:', error);
-  }
-}
 
 /**
  * Sets up validation for the checkout form.
@@ -55,6 +16,7 @@ function setupFormValidation() {
   form.addEventListener('submit', async (event) => {
     event.preventDefault(); // Prevent default form submission
 
+    // Get form values
     const firstName = document.getElementById('first-name').value.trim();
     const secondName = document.getElementById('second-name').value.trim();
     const email = document.getElementById('email').value.trim();
@@ -62,21 +24,23 @@ function setupFormValidation() {
     const zip = document.getElementById('zip').value.trim();
     const cardNumber = document.getElementById('card-number').value.trim();
     const expirationDate = document
-      .getElementById('Expiration-Date')
+      .getElementById('expiration-date')
       .value.trim();
     const cvv = document.getElementById('cvv').value.trim();
-    const paymentMethod = document
-      .getElementById('payment-method')
-      .value.trim(); // Get selected payment method
+    const paymentMethod = document.querySelector(
+      'input[name="payment-method"]:checked'
+    )?.value; // Get selected payment method
 
+    // Error messages for validation
     const errorMessages = {
       'first-name': 'First Name is required.',
       'second-name': 'Second Name is required.',
       email: 'Invalid email format.',
       phone: 'Phone number must be 10 digits.',
       zip: 'ZIP code must be 5 or 6 digits.',
-      'card-number': 'Card Number must be 16 digits.',
-      'Expiration-Date': 'Expiration Date is required.',
+      'card-number':
+        'Card Number is invalid or does not match the selected payment method.',
+      'expiration-date': 'Expiration Date must be in the future.',
       cvv: 'CVV must be 3 digits.',
       'payment-method': 'Payment method is required.',
     };
@@ -95,16 +59,18 @@ function setupFormValidation() {
     if (!zip || !/^\d{5,6}$/.test(zip)) {
       errors.zip = errorMessages.zip;
     }
-    if (!cardNumber || !/^\d{16}$/.test(cardNumber)) {
+    if (!cardNumber || !validateCardNumber(cardNumber, paymentMethod)) {
       errors['card-number'] = errorMessages['card-number'];
     }
-    if (!expirationDate)
-      errors['Expiration-Date'] = errorMessages['Expiration-Date'];
+    if (!expirationDate || !isFutureDate(expirationDate)) {
+      errors['expiration-date'] = errorMessages['expiration-date'];
+    }
     if (!cvv || !/^\d{3}$/.test(cvv)) {
       errors.cvv = errorMessages.cvv;
     }
-    if (!paymentMethod)
-      errors['payment-method'] = errorMessages['payment-method']; // Validate payment method
+    if (!paymentMethod) {
+      errors['payment-method'] = errorMessages['payment-method'];
+    }
 
     // Display errors or proceed with form submission
     displayErrors(errors);
@@ -120,7 +86,7 @@ function setupFormValidation() {
         cardNumber,
         expirationDate,
         cvv,
-        paymentMethod, // Include selected payment method
+        paymentMethod,
       };
       const oderId = localStorage.getItem('orderId');
       console.log('Shipping details:', shippingDetails);
@@ -148,21 +114,106 @@ function setupFormValidation() {
 }
 
 /**
+ * Validates a card number using the Luhn Algorithm and checks if it matches the selected payment method.
+ * @param {string} cardNumber - The card number to validate.
+ * @param {string} paymentMethod - The selected payment method (Visa or MasterCard).
+ * @returns {boolean} - True if the card number is valid and matches the payment method, false otherwise.
+ */
+function validateCardNumber(cardNumber, paymentMethod) {
+  // Remove all non-digit characters
+  cardNumber = cardNumber.replace(/\D/g, '');
+
+  // Check if the card number is valid using the Luhn Algorithm
+  if (!isValidLuhn(cardNumber)) {
+    return false;
+  }
+
+  // Check if the card number matches the selected payment method
+  if (paymentMethod === 'Visa' && !isVisaCard(cardNumber)) {
+    return false;
+  }
+  if (paymentMethod === 'MasterCard' && !isMasterCard(cardNumber)) {
+    return false;
+  }
+
+  return true;
+}
+
+/**
+ * Checks if a card number is valid using the Luhn Algorithm.
+ * @param {string} cardNumber - The card number to validate.
+ * @returns {boolean} - True if the card number is valid, false otherwise.
+ */
+function isValidLuhn(cardNumber) {
+  let sum = 0;
+  for (let i = 0; i < cardNumber.length; i++) {
+    let digit = parseInt(cardNumber[i], 10);
+    if ((cardNumber.length - i) % 2 === 0) {
+      digit *= 2;
+      if (digit > 9) {
+        digit -= 9;
+      }
+    }
+    sum += digit;
+  }
+  return sum % 10 === 0;
+}
+
+/**
+ * Checks if a card number is a valid Visa card.
+ * @param {string} cardNumber - The card number to validate.
+ * @returns {boolean} - True if the card number is a valid Visa card, false otherwise.
+ */
+function isVisaCard(cardNumber) {
+  // Visa cards start with 4 and have 16 digits
+  return /^4\d{15}$/.test(cardNumber);
+}
+
+/**
+ * Checks if a card number is a valid MasterCard.
+ * @param {string} cardNumber - The card number to validate.
+ * @returns {boolean} - True if the card number is a valid MasterCard, false otherwise.
+ */
+function isMasterCard(cardNumber) {
+  // MasterCard numbers start with 51-55 or 2221-2720 and have 16 digits
+  return /^(5[1-5]\d{14}|222[1-9]\d{12}|27[0-2]\d{13})$/.test(cardNumber);
+}
+
+/**
+ * Checks if the expiration date is in the future.
+ * @param {string} dateString - The date string in "YYYY-MM" format.
+ * @returns {boolean} - True if the date is in the future, false otherwise.
+ */
+function isFutureDate(dateString) {
+  const [year, month] = dateString.split('-');
+  const expirationDate = new Date(year, month - 1);
+  const currentDate = new Date();
+  return expirationDate > currentDate;
+}
+
+/**
  * Displays validation errors in the form.
  * @param {Object} errors - An object containing field error messages.
  */
 function displayErrors(errors) {
-  // Clear previous error messages
   document.querySelectorAll('.error-message').forEach((el) => el.remove());
 
-  // Loop through errors and display them
   Object.keys(errors).forEach((field) => {
-    const inputField = document.getElementById(field);
-    if (inputField) {
+    if (field === 'payment-method') {
+      const paymentMethodContainer =
+        document.querySelector('.d-flex.gap-3').parentElement;
       const errorElement = document.createElement('div');
       errorElement.className = 'error-message text-danger mt-1';
       errorElement.textContent = errors[field];
-      inputField.parentElement.appendChild(errorElement);
+      paymentMethodContainer.appendChild(errorElement);
+    } else {
+      const inputField = document.getElementById(field);
+      if (inputField) {
+        const errorElement = document.createElement('div');
+        errorElement.className = 'error-message text-danger mt-1';
+        errorElement.textContent = errors[field];
+        inputField.parentElement.appendChild(errorElement);
+      }
     }
   });
 }
@@ -174,9 +225,9 @@ function displayErrors(errors) {
  */
 async function updateOrderShippingDetails(orderId, shippingDetails) {
   try {
-    // Assuming we have a method to update the order (add shipping details to the order)
     const updatedOrder = await ordersService.updateOrder(orderId, {
       shippingDetails,
+      status: 'confirmed',
     });
     console.log('Order updated successfully:', updatedOrder);
     alert('Order updated successfully!');

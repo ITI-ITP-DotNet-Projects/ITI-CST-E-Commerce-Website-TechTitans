@@ -133,8 +133,17 @@ async function renderOrderItems(orderId) {
 }
 
 onload = async () => {
-  await renderNavBar();
-  let orderId = +localStorage.getItem('orderId');
-  await renderOrderSummary(orderId);
-  await renderOrderItems(orderId);
+  const loggedInUser = await usersService.getCurrentLoggedInUser();
+  if (
+    !localStorage.getItem('orderId') ||
+    !loggedInUser ||
+    loggedInUser.role != 'admin'
+  ) {
+    window.location.href = 'home.html';
+  } else {
+    await renderNavBar();
+    let orderId = +localStorage.getItem('orderId');
+    await renderOrderSummary(orderId);
+    await renderOrderItems(orderId);
+  }
 };
