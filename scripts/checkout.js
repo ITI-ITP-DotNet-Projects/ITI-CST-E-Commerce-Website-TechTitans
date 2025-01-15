@@ -1,6 +1,6 @@
 import { renderNavBar } from './common/navbar.component.js';
 import { ordersService } from '../backend/services/orders.service.js';
-
+import { showSuccessMessage } from './common/showSuccessMessage.js';
 onload = async () => {
   await renderNavBar();
   setupFormValidation(); // Set up form validation
@@ -32,8 +32,14 @@ function setupFormValidation() {
 
     // Error messages for validation
     const errorMessages = {
-      'first-name': 'First Name is required.',
-      'second-name': 'Second Name is required.',
+      'first-name': {
+        required: 'First Name is required.',
+        invalid: 'First Name should only contain letters.',
+      },
+      'second-name': {
+        required: 'Second Name is required.',
+        invalid: 'Second Name should only contain letters.',
+      },
       email: 'Invalid email format.',
       phone: 'Phone number must be 10 digits.',
       zip: 'ZIP code must be 5 or 6 digits.',
@@ -46,68 +52,63 @@ function setupFormValidation() {
 
     const errors = {}; // Store error messages for each field
 
-    // Validate fields and add error messages
-    if (!firstName) errors['first-name'] = errorMessages['first-name'];
-    if (!secondName) errors['second-name'] = errorMessages['second-name'];
+    // Validate First Name
+    if (!firstName) {
+      errors['first-name'] = errorMessages['first-name'].required;
+    } else if (!/^[a-zA-Z]+$/.test(firstName)) {
+      errors['first-name'] = errorMessages['first-name'].invalid;
+    }
+
+    // Validate Second Name
+    if (!secondName) {
+      errors['second-name'] = errorMessages['second-name'].required;
+    } else if (!/^[a-zA-Z]+$/.test(secondName)) {
+      errors['second-name'] = errorMessages['second-name'].invalid;
+    }
+
+    // Validate email
     if (!email || !/^[\w.%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
       errors.email = errorMessages.email;
     }
-    if (!phone || !/^\d{10}$/.test(phone)) {
+
+    // Validate phone
+    if (!phone || !/^0\d{10}$/.test(phone)) {
       errors.phone = errorMessages.phone;
     }
+    // Validate ZIP code
     if (!zip || !/^\d{5,6}$/.test(zip)) {
       errors.zip = errorMessages.zip;
     }
+
+    // Validate card number
     if (!cardNumber || !validateCardNumber(cardNumber, paymentMethod)) {
       errors['card-number'] = errorMessages['card-number'];
     }
+
+    // Validate expiration date
     if (!expirationDate || !isFutureDate(expirationDate)) {
       errors['expiration-date'] = errorMessages['expiration-date'];
     }
+
+    // Validate CVV
     if (!cvv || !/^\d{3}$/.test(cvv)) {
       errors.cvv = errorMessages.cvv;
     }
+
+    // Validate payment method
     if (!paymentMethod) {
       errors['payment-method'] = errorMessages['payment-method'];
     }
 
-    // Display errors or proceed with form submission
+    // Display errors
     displayErrors(errors);
 
     if (Object.keys(errors).length === 0) {
-      // Proceed with form submission logic here
-      const shippingDetails = {
-        firstName,
-        secondName,
-        email,
-        phone,
-        zip,
-        cardNumber,
-        expirationDate,
-        cvv,
-        paymentMethod,
-      };
-      const oderId = localStorage.getItem('orderId');
-      console.log('Shipping details:', shippingDetails);
-
-      try {
-        // Fetch the current order directly from ordersService
-        const order = await ordersService.getOrders({
-          filterOptions: { id: parseInt(oderId) },
-        });
-
-        if (!order || order.length === 0) {
-          alert('No order found for the current user.');
-          return;
-        }
-
-        const orderId = order[0].id;
-
-        await updateOrderShippingDetails(orderId, shippingDetails);
-      } catch (error) {
-        console.error('Failed to retrieve order or update shipping:', error);
-        alert('An error occurred during the checkout. Please try again.');
-      }
+      // If no errors, proceed with form submission
+      showSuccessMessage('Form submitted successfully!');
+      setTimeout(() => {
+        window.location.href = 'home.html';
+      }, 2000);
     }
   });
 }
