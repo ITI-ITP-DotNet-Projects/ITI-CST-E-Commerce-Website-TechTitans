@@ -1,3 +1,4 @@
+import { shoppingCartsService } from '../backend/services/shoppingCarts.service.js';
 import { usersService } from '../backend/services/users.service.js';
 import { renderNavBar } from './common/navbar.component.js';
 
@@ -84,13 +85,17 @@ onload = async () => {
           password,
           role,
         });
+        // create cart for this customer
+        if (newUser.role == 'customer') {
+          await shoppingCartsService.createShoppingCart(newUser.id);
+        }
         const successAlert = document.createElement('div');
         successAlert.classList.add('alert', 'alert-success');
         successAlert.innerHTML = `User ${newUser.name} has been successfully registered!`;
         form.appendChild(successAlert);
 
         setTimeout(() => {
-          window.location.href = './home.html';
+          window.location.href = './signin.html';
         }, 2000);
       } catch (error) {
         const errorAlert = document.createElement('div');

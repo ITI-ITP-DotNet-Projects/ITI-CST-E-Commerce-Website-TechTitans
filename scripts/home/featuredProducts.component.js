@@ -94,7 +94,6 @@ export class FeaturedProductsComponent {
     document.querySelectorAll('.add-cart-btn').forEach((bnt) => {
       bnt.addEventListener('click', async (e) => {
         e.preventDefault();
-        console.log(e.target);
         const productId = +e.target.dataset.prod_id;
         console.log(productId);
         const loggedInUser = await usersService.getCurrentLoggedInUser();
