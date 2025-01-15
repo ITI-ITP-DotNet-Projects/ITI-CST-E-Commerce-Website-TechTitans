@@ -17,10 +17,14 @@ async function renderOrderSummary(orderId) {
     completed: 'success', // Green
     canceled: 'danger', // Red
   };
+  console.log(orderId);
   const [order] = await ordersService.getOrders({
-    id: orderId,
+    filterOptions: {
+      id: orderId,
+    },
   });
-  const [user] = await usersService.getUsers({ id: order.id });
+  console.log(order);
+  const [user] = await usersService.getUsers({ id: order.customerId });
 
   const orderInformationTemplate = `<div class="col-md-6">
                   <h5 class="mb-3">Order Information</h5>
@@ -49,7 +53,7 @@ async function renderOrderSummary(orderId) {
   document.getElementById('orderInformation').innerHTML = renderTemplate(
     orderInformationTemplate,
     {
-      orderId: order.id,
+      orderId,
       statusClass: statusClasses[order.status],
       orderStatus: order.status,
       totPrice: order.totalPrice,
@@ -57,14 +61,18 @@ async function renderOrderSummary(orderId) {
     }
   );
 
+  const customerName =
+    order?.shippingDetails?.firstName && order?.shippingDetails?.lastName
+      ? `${order.shippingDetails.firstName} ${order.shippingDetails.lastName}`
+      : user.name;
+
   document.getElementById('customerInformation').innerHTML = renderTemplate(
     customerInformationTemplate,
     {
-      customerName:
-        order.shippingDetails.firstName + ' ' + order.shippingDetails.lastName,
-      customerEmail: order.shippingDetails.email,
-      customerPhone: order.shippingDetails.phoneNumber,
-      customerAddress: order.shippingDetails.address,
+      customerName,
+      customerEmail: order?.shippingDetails?.email || user.email,
+      customerPhone: order?.shippingDetails?.phoneNumber ?? 'N/A',
+      customerAddress: order?.shippingDetails?.address ?? 'N/A',
     }
   );
 
