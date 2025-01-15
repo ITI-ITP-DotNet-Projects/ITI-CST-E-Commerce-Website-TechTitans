@@ -47,6 +47,9 @@ function updateSummary(cartItems, productMap) {
 
   // Update the total price display
   summaryTotalPriceElement.value = `£${total.toFixed(2)}`;
+
+  // Disable checkout button if cart is empty
+  checkoutBtn.disabled = cartItems.length === 0;
 }
 
 function addCartEventListeners(productMap) {
@@ -142,7 +145,12 @@ function addCartEventListeners(productMap) {
       const itemId = +e.target.dataset.itemId;
       try {
         await shoppingCartItemsService.deleteShoppingCartItem(itemId);
-        renderCart(); // Re-render the cart after item removal
+        await renderCart(); // Re-render the cart after item removal
+
+        // Check if the cart is now empty
+        if (shoppingCartItems.length === 0) {
+          await renderNavBar(); // Re-render the navbar to update the cart count
+        }
       } catch (error) {
         console.error('Error removing item:', error.message);
         showSuccessMessage(error.message);
@@ -193,7 +201,8 @@ async function renderCart() {
           <div class="row mb-3">
             <div class="col-md-3">
               <img src="./imgs/${
-                product.images?.[0] || 'https://via.placeholder.com/150'
+                product.images?.[0] ||
+                'https://v...content-available-to-author-only...r.com/150'
               }" class="img-fluid" alt="${product.name || 'Product Image'}">
             </div>
             <div class="col-md-6">
@@ -241,8 +250,12 @@ async function renderCart() {
 }
 
 async function handleCheckout() {
+  if (shoppingCartItems.length === 0) {
+    showErrorMessage('Your cart is empty. Add items to proceed to checkout.');
+    return; // Prevent redirection if the cart is empty
+  }
+
   try {
-    renderCart;
     const orderData = {
       customerId: loggedInUser.id,
       totalPrice: parseFloat(summaryTotalPriceElement.value.replace('£', '')),
@@ -304,7 +317,6 @@ async function handleCheckout() {
     );
 
     // Step 5: Notify the user and refresh the cart
-    // alert('Order placed successfully!');
     showSuccessMessage('Order placed successfully!');
     await renderCart();
     setTimeout(() => {
@@ -313,7 +325,6 @@ async function handleCheckout() {
   } catch (error) {
     console.error('Error during checkout:', error.message);
     showErrorMessage(`Error during checkout: ${error.message}`);
-    // alert('Checkout failed. Please try again later.');
   }
 }
 
