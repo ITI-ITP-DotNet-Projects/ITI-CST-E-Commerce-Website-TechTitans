@@ -1,5 +1,4 @@
 import { renderNavBar } from './common/navbar.component.js';
-import { paymentMethodsService } from '../backend/services/paymentMethods.service.js';
 import { ordersService } from '../backend/services/orders.service.js';
 
 onload = async () => {
