@@ -145,12 +145,7 @@ function addCartEventListeners(productMap) {
       const itemId = +e.target.dataset.itemId;
       try {
         await shoppingCartItemsService.deleteShoppingCartItem(itemId);
-        await renderCart(); // Re-render the cart after item removal
-
-        // Check if the cart is now empty
-        if (shoppingCartItems.length === 0) {
-          await renderNavBar(); // Re-render the navbar to update the cart count
-        }
+        renderCart(); // Re-render the cart after item removal
       } catch (error) {
         console.error('Error removing item:', error.message);
         showSuccessMessage(error.message);
