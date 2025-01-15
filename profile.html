@@ -101,7 +101,11 @@
       /* Account Details */
       .edit-btn {
         background-color: var(--main-color);
-        color: white;
+        color: var(--gray-color-l1);
+      }
+      .edit-btn:hover {
+        border-color: var(--main-color) !important;
+        color: var(--main-color);
       }
 
       /*Footer*/
@@ -291,7 +295,11 @@
 
               <!-- Edit Profile Button -->
               <div class="mt-4">
-                <button type="button" class="btn edit-btn" id="editButton">
+                <button
+                  type="button"
+                  class="btn edit-btn fw-bold"
+                  id="editButton"
+                >
                   Edit Profile
                 </button>
               </div>
