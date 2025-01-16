@@ -26,43 +26,48 @@ window.onload = async () => {
     console.error('Error during page load:', error);
     alert('An error occurred while loading product details.');
   }
-  document
-    .getElementById('add-to-cart-btn')
-    .addEventListener('click', async () => {
-      const loggedInUser = await usersService.getCurrentLoggedInUser();
-      const productId = +localStorage.getItem('productId');
-      if (loggedInUser) {
-        const [shoppingCart] = await shoppingCartsService.getShoppingCarts({
-          filterOptions: {
-            customerId: loggedInUser.id,
-          },
-        });
-        if (
-          !Boolean(
-            (
-              await shoppingCartItemsService.getShoppingCartItems({
-                filterOptions: { cartId: shoppingCart.id, productId },
-              })
-            ).length
-          )
-        ) {
-          await shoppingCartItemsService.createShoppingCartItem({
-            cartId: shoppingCart.id,
-            productId,
-            quantity: 1,
+
+  if ((await usersService.getCurrentLoggedInUser()).role == 'admin') {
+    document.querySelector('.add-cart-btn').style.display = 'none';
+  } else {
+    document
+      .getElementById('add-to-cart-btn')
+      .addEventListener('click', async () => {
+        const loggedInUser = await usersService.getCurrentLoggedInUser();
+        const productId = +localStorage.getItem('productId');
+        if (loggedInUser) {
+          const [shoppingCart] = await shoppingCartsService.getShoppingCarts({
+            filterOptions: {
+              customerId: loggedInUser.id,
+            },
           });
+          if (
+            !Boolean(
+              (
+                await shoppingCartItemsService.getShoppingCartItems({
+                  filterOptions: { cartId: shoppingCart.id, productId },
+                })
+              ).length
+            )
+          ) {
+            await shoppingCartItemsService.createShoppingCartItem({
+              cartId: shoppingCart.id,
+              productId,
+              quantity: 1,
+            });
+          }
+
+          // Show success message
+          showSuccessMessage('Product added to cart successfully!');
+
+          setTimeout(() => {
+            window.location.href = 'cart.html';
+          }, 1500);
+        } else {
+          window.location.href = './signin.html';
         }
-
-        // Show success message
-        showSuccessMessage('Product added to cart successfully!');
-
-        setTimeout(() => {
-          window.location.href = 'cart.html';
-        }, 1500);
-      } else {
-        window.location.href = './signin.html';
-      }
-    });
+      });
+  }
 };
 
 async function fetchProductDetails(productId) {

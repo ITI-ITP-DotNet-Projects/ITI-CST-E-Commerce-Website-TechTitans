@@ -267,48 +267,53 @@ export class ProductsGalleryComponent {
     });
 
     // register events related to add to cart
-    document.querySelectorAll('.add-cart-btn').forEach((bnt) => {
-      bnt.addEventListener('click', async (e) => {
-        e.preventDefault();
-        const productId = +e.target.dataset.prod_id;
-        const loggedInUser = await usersService.getCurrentLoggedInUser();
-
-        if (!loggedInUser) {
-          window.location.href = 'signin.html';
-        } else {
-          const [shoppingCart] = await shoppingCartsService.getShoppingCarts({
-            filterOptions: {
-              customerId: loggedInUser.id,
-            },
-          });
-          if (
-            !Boolean(
-              (
-                await shoppingCartItemsService.getShoppingCartItems({
-                  filterOptions: { cartId: shoppingCart.id, productId },
-                })
-              ).length
-            )
-          ) {
-            await shoppingCartItemsService.createShoppingCartItem({
-              cartId: shoppingCart.id,
-              productId,
-              quantity: 1,
-            });
-          }
-
-          // Show success message
-          showSuccessMessage('Product added to cart successfully!');
-        }
+    if ((await usersService.getCurrentLoggedInUser()).role === 'admin') {
+      document.querySelectorAll('.add-cart-btn').forEach((btn) => {
+        btn.style.display = 'none';
       });
-
-      // registerEvents for productName
-      document.querySelectorAll('.product-name').forEach((ele) => {
-        ele.addEventListener('click', (e) => {
+    } else {
+      document.querySelectorAll('.add-cart-btn').forEach((bnt) => {
+        bnt.addEventListener('click', async (e) => {
           e.preventDefault();
-          localStorage.setItem('productId', e.target.dataset.prod_id);
-          window.location.href = 'productdetails.html';
+          const productId = +e.target.dataset.prod_id;
+          const loggedInUser = await usersService.getCurrentLoggedInUser();
+
+          if (!loggedInUser) {
+            window.location.href = 'signin.html';
+          } else {
+            const [shoppingCart] = await shoppingCartsService.getShoppingCarts({
+              filterOptions: {
+                customerId: loggedInUser.id,
+              },
+            });
+            if (
+              !Boolean(
+                (
+                  await shoppingCartItemsService.getShoppingCartItems({
+                    filterOptions: { cartId: shoppingCart.id, productId },
+                  })
+                ).length
+              )
+            ) {
+              await shoppingCartItemsService.createShoppingCartItem({
+                cartId: shoppingCart.id,
+                productId,
+                quantity: 1,
+              });
+            }
+            // Show success message
+            showSuccessMessage('Product added to cart successfully!');
+          }
         });
+      });
+    }
+
+    // registerEvents for productName
+    document.querySelectorAll('.product-name').forEach((ele) => {
+      ele.addEventListener('click', (e) => {
+        e.preventDefault();
+        localStorage.setItem('productId', e.target.dataset.prod_id);
+        window.location.href = 'productdetails.html';
       });
     });
   }
