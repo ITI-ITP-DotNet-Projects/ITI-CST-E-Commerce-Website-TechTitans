@@ -17,13 +17,13 @@ async function renderOrderSummary(orderId) {
     completed: 'success', // Green
     canceled: 'danger', // Red
   };
-  console.log(orderId);
+
   const [order] = await ordersService.getOrders({
     filterOptions: {
       id: orderId,
     },
   });
-  console.log(order);
+
   const [user] = await usersService.getUsers({ id: order.customerId });
 
   const orderInformationTemplate = `<div class="col-md-6">
@@ -82,7 +82,7 @@ async function renderOrderSummary(orderId) {
       await ordersService.updateOrder(order.id, {
         status: 'completed',
       });
-      renderOrderSummary();
+      renderOrderSummary(order.id);
     });
 
   document
@@ -91,7 +91,7 @@ async function renderOrderSummary(orderId) {
       await ordersService.updateOrder(order.id, {
         status: 'canceled',
       });
-      renderOrderSummary();
+      renderOrderSummary(order.id);
     });
 }
 
@@ -133,7 +133,6 @@ async function renderOrderItems(orderId) {
       orderId,
     },
   });
-  console.log(orderItems);
 
   document.querySelector('tbody').innerHTML = (
     await Promise.all(orderItems.map((item) => renderOrderItem(item)))
