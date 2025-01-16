@@ -85,6 +85,7 @@ onload = async () => {
           password,
           role,
         });
+        await usersService.updateUser(newUser.id, { avatar: 'avatar.jpg' });
         // create cart for this customer
         if (newUser.role == 'customer') {
           await shoppingCartsService.createShoppingCart(newUser.id);
