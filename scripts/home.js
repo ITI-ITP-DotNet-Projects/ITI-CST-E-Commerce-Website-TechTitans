@@ -7,9 +7,10 @@ onload = async () => {
   loadData();
   await renderNavBar();
   const loggedInUser = await usersService.getCurrentLoggedInUser();
+
   if (
-    (loggedInUser && loggedInUser.role === 'admin') ||
-    loggedInUser.role === 'seller'
+    loggedInUser &&
+    (loggedInUser.role === 'admin' || loggedInUser.role === 'seller')
   ) {
     window.location.href = 'dashboard.html';
   } else {
